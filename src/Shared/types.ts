@@ -463,6 +463,7 @@ export enum RegistryType {
     ARTIFACT_REGISTRY = 'artifact-registry',
     GCR = 'gcr',
     OTHER = 'other',
+    TTL_SH = 'ttl-sh',
 }
 
 export enum DefaultUserKey {

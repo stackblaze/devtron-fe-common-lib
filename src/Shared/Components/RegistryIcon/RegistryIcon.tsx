@@ -32,6 +32,7 @@ const registryIconMap: Record<RegistryType, IconName> = {
     [RegistryType.ARTIFACT_REGISTRY]: 'ic-google-artifact-registry',
     [RegistryType.GCR]: 'ic-google-container-registry',
     [RegistryType.OTHER]: 'ic-container-registry',
+    [RegistryType.TTL_SH]: 'ic-container-registry',
 }
 
 const getRegistryUrlIconName = (registryUrl: string): IconName => {
