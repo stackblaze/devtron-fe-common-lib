@@ -4464,6 +4464,93 @@ var lu = ({ startNode: e }) => e.type === cr.WEBHOOK ? Gn.WEBHOOK : e.type === c
 		},
 		startIcon: /* @__PURE__ */ (0, Y.jsx)(Wh, { registryType: rn.QUAY })
 	},
+	"ttl-sh": {
+		value: "ttl-sh",
+		label: "ttl.sh",
+		desiredFormat: "(any name; image tag must be 5m / 30m / 1h / 6h / 24h)",
+		placeholderText: "Eg. my-app",
+		gettingStartedLink: "https://ttl.sh",
+		defaultRegistryURL: "ttl.sh",
+		registryURL: {
+			label: "Registry URL",
+			defaultValue: "ttl.sh",
+			placeholder: "ttl.sh"
+		},
+		id: {
+			label: "Username (anonymous push allowed — leave blank)",
+			defaultValue: "",
+			placeholder: ""
+		},
+		password: {
+			label: "Password (anonymous push allowed — leave blank)",
+			defaultValue: "",
+			placeholder: ""
+		},
+		startIcon: /* @__PURE__ */ (0, Y.jsx)(({ size: e = 20 }) => /* @__PURE__ */ (0, Y.jsxs)("svg", {
+			width: e,
+			height: e,
+			viewBox: "0 0 32 32",
+			fill: "none",
+			xmlns: "http://www.w3.org/2000/svg",
+			"aria-label": "ttl.sh",
+			children: [
+				/* @__PURE__ */ (0, Y.jsx)("defs", { children: /* @__PURE__ */ (0, Y.jsxs)("linearGradient", {
+					id: "dt-ttl-sh-grad",
+					x1: "0%",
+					y1: "0%",
+					x2: "100%",
+					y2: "100%",
+					children: [/* @__PURE__ */ (0, Y.jsx)("stop", {
+						offset: "0%",
+						stopColor: "#10b981"
+					}), /* @__PURE__ */ (0, Y.jsx)("stop", {
+						offset: "100%",
+						stopColor: "#059669"
+					})]
+				}) }),
+				/* @__PURE__ */ (0, Y.jsx)("rect", {
+					width: "32",
+					height: "32",
+					rx: "7",
+					fill: "url(#dt-ttl-sh-grad)"
+				}),
+				/* @__PURE__ */ (0, Y.jsx)("circle", {
+					cx: "16",
+					cy: "17",
+					r: "10",
+					fill: "none",
+					stroke: "white",
+					strokeWidth: "2"
+				}),
+				/* @__PURE__ */ (0, Y.jsx)("line", {
+					x1: "16",
+					y1: "17",
+					x2: "16",
+					y2: "10",
+					stroke: "white",
+					strokeWidth: "2",
+					strokeLinecap: "round"
+				}),
+				/* @__PURE__ */ (0, Y.jsx)("line", {
+					x1: "16",
+					y1: "17",
+					x2: "21",
+					y2: "17",
+					stroke: "white",
+					strokeWidth: "1.5",
+					strokeLinecap: "round"
+				}),
+				/* @__PURE__ */ (0, Y.jsx)("rect", {
+					x: "14",
+					y: "4",
+					width: "4",
+					height: "4",
+					rx: "1",
+					fill: "white"
+				})
+			]
+		}), {})
+	},
 	other: {
 		value: "other",
 		label: "Other",
@@ -4487,30 +4574,6 @@ var lu = ({ startNode: e }) => e.type === cr.WEBHOOK ? Gn.WEBHOOK : e.type === c
 			placeholder: ""
 		},
 		startIcon: /* @__PURE__ */ (0, Y.jsx)(Wh, { registryType: rn.OTHER })
-	},
-	"ttl-sh": {
-		value: "ttl-sh",
-		label: "ttl.sh",
-		desiredFormat: "(any name; image tag must be 5m / 30m / 1h / 6h / 24h)",
-		placeholderText: "Eg. my-app",
-		gettingStartedLink: "https://ttl.sh",
-		defaultRegistryURL: "ttl.sh",
-		registryURL: {
-			label: "Registry URL",
-			defaultValue: "ttl.sh",
-			placeholder: "ttl.sh"
-		},
-		id: {
-			label: "Username (anonymous push allowed — leave blank)",
-			defaultValue: "",
-			placeholder: ""
-		},
-		password: {
-			label: "Password (anonymous push allowed — leave blank)",
-			defaultValue: "",
-			placeholder: ""
-		},
-		startIcon: /* @__PURE__ */ (0, Y.jsx)(Wh, { registryType: rn.TTL_SH })
 	}
 }, Kh = (e) => /* @__PURE__ */ (0, Y.jsx)("svg", {
 	xmlns: "http://www.w3.org/2000/svg",

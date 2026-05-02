@@ -18,6 +18,7 @@ import { RegistryTypeDetailType } from '@Common/Types'
 import { RegistryType } from '@Shared/types'
 
 import { RegistryIcon } from './RegistryIcon'
+import { TtlShIcon } from './TtlShIcon'
 
 export const REGISTRY_TYPE_MAP: Record<string, RegistryTypeDetailType> = {
     ecr: {
@@ -189,6 +190,30 @@ export const REGISTRY_TYPE_MAP: Record<string, RegistryTypeDetailType> = {
         },
         startIcon: <RegistryIcon registryType={RegistryType.QUAY} />,
     },
+    'ttl-sh': {
+        value: 'ttl-sh',
+        label: 'ttl.sh',
+        desiredFormat: '(any name; image tag must be 5m / 30m / 1h / 6h / 24h)',
+        placeholderText: 'Eg. my-app',
+        gettingStartedLink: 'https://ttl.sh',
+        defaultRegistryURL: 'ttl.sh',
+        registryURL: {
+            label: 'Registry URL',
+            defaultValue: 'ttl.sh',
+            placeholder: 'ttl.sh',
+        },
+        id: {
+            label: 'Username (anonymous push allowed — leave blank)',
+            defaultValue: '',
+            placeholder: '',
+        },
+        password: {
+            label: 'Password (anonymous push allowed — leave blank)',
+            defaultValue: '',
+            placeholder: '',
+        },
+        startIcon: <TtlShIcon />,
+    },
     other: {
         value: 'other',
         label: 'Other',
@@ -212,29 +237,5 @@ export const REGISTRY_TYPE_MAP: Record<string, RegistryTypeDetailType> = {
             placeholder: '',
         },
         startIcon: <RegistryIcon registryType={RegistryType.OTHER} />,
-    },
-    'ttl-sh': {
-        value: 'ttl-sh',
-        label: 'ttl.sh',
-        desiredFormat: '(any name; image tag must be 5m / 30m / 1h / 6h / 24h)',
-        placeholderText: 'Eg. my-app',
-        gettingStartedLink: 'https://ttl.sh',
-        defaultRegistryURL: 'ttl.sh',
-        registryURL: {
-            label: 'Registry URL',
-            defaultValue: 'ttl.sh',
-            placeholder: 'ttl.sh',
-        },
-        id: {
-            label: 'Username (anonymous push allowed — leave blank)',
-            defaultValue: '',
-            placeholder: '',
-        },
-        password: {
-            label: 'Password (anonymous push allowed — leave blank)',
-            defaultValue: '',
-            placeholder: '',
-        },
-        startIcon: <RegistryIcon registryType={RegistryType.TTL_SH} />,
     },
 }
