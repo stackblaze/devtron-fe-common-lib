@@ -4477,12 +4477,12 @@ var lu = ({ startNode: e }) => e.type === cr.WEBHOOK ? Gn.WEBHOOK : e.type === c
 			placeholder: "ttl.sh"
 		},
 		id: {
-			label: "Username (anonymous push allowed — leave blank)",
+			label: "",
 			defaultValue: "",
 			placeholder: ""
 		},
 		password: {
-			label: "Password (anonymous push allowed — leave blank)",
+			label: "",
 			defaultValue: "",
 			placeholder: ""
 		},

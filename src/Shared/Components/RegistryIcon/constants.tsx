@@ -203,12 +203,12 @@ export const REGISTRY_TYPE_MAP: Record<string, RegistryTypeDetailType> = {
             placeholder: 'ttl.sh',
         },
         id: {
-            label: 'Username (anonymous push allowed — leave blank)',
+            label: '',
             defaultValue: '',
             placeholder: '',
         },
         password: {
-            label: 'Password (anonymous push allowed — leave blank)',
+            label: '',
             defaultValue: '',
             placeholder: '',
         },
