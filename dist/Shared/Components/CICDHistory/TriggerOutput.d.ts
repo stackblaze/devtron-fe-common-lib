@@ -1,0 +1,3 @@
+import { TriggerOutputProps } from './types';
+declare const TriggerOutput: ({ fullScreenView, triggerHistory, setTriggerHistory, setFullScreenView, deploymentAppType, isBlobStorageConfigured, appReleaseTags, tagsEditable, hideImageTaggingHardDelete, fetchIdData, setFetchTriggerIdData, selectedEnvironmentName, deploymentHistoryResult, renderRunSource, renderCIListHeader, renderDeploymentApprovalInfo, processVirtualEnvironmentDeploymentData, renderVirtualHistoryArtifacts, renderDeploymentHistoryTriggerMetaText, resourceId, scrollToTop, scrollToBottom, renderTargetConfigInfo, appName, pathPattern, }: TriggerOutputProps) => import("react/jsx-runtime").JSX.Element;
+export default TriggerOutput;

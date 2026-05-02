@@ -1,0 +1,2 @@
+import { KeyValueTableProps } from './KeyValueTable.types';
+export declare const KeyValueTable: ({ headerLabel, rows: initialRows, placeholder, maskValue, isSortable, headerComponent, onChange, isAdditionNotAllowed, shouldAutoFocusOnMount, readOnly, showError, validationSchema: parentValidationSchema, onError, validateDuplicateKeys, validateEmptyKeys, }: KeyValueTableProps) => import("react/jsx-runtime").JSX.Element;

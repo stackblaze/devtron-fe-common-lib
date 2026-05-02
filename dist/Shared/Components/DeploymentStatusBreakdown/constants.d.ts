@@ -1,0 +1,11 @@
+import { DEPLOYMENT_STATUS } from '../../constants';
+import { DeploymentPhaseType, DeploymentStatusTimelineType } from '../../types';
+import { WorkflowRunnerStatusDTO } from './types';
+export declare const DEPLOYMENT_STATUS_TEXT_MAP: Readonly<Record<(typeof DEPLOYMENT_STATUS)[keyof typeof DEPLOYMENT_STATUS], string>>;
+export declare const WFR_STATUS_DTO_TO_DEPLOYMENT_STATUS_MAP: Readonly<Record<WorkflowRunnerStatusDTO, (typeof DEPLOYMENT_STATUS)[keyof typeof DEPLOYMENT_STATUS]>>;
+export declare const PROGRESSING_DEPLOYMENT_STATUS: Readonly<(typeof DEPLOYMENT_STATUS)[keyof typeof DEPLOYMENT_STATUS][]>;
+export declare const SUCCESSFUL_DEPLOYMENT_STATUS: typeof PROGRESSING_DEPLOYMENT_STATUS;
+export declare const FAILED_DEPLOYMENT_STATUS: typeof PROGRESSING_DEPLOYMENT_STATUS;
+export declare const PHYSICAL_ENV_DEPLOYMENT_TIMELINE_ORDER_ARGO: Readonly<DeploymentStatusTimelineType[]>;
+export declare const PHYSICAL_ENV_DEPLOYMENT_TIMELINE_ORDER_FLUX: Readonly<DeploymentStatusTimelineType[]>;
+export declare const DEPLOYMENT_PHASES: Readonly<DeploymentPhaseType[]>;

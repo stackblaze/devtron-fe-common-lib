@@ -1,0 +1,3 @@
+import { FiltersTypeEnum, TableContentProps } from './types';
+declare const TableContent: <RowData extends unknown, FilterVariant extends FiltersTypeEnum, AdditionalProps extends Record<string, any>>({ filterData, rows, resizableConfig, additionalProps, visibleColumns, stylesConfig, loading, bulkSelectionConfig, bulkSelectionReturnValue, handleClearBulkSelection, handleToggleBulkSelectionOnRow, paginationVariant, rowActionOnHoverConfig, pageSizeOptions, filteredRows, areFilteredRowsLoading, getRows, totalRows, rowStartIconConfig, onRowClick, }: TableContentProps<RowData, FilterVariant, AdditionalProps>) => import("react/jsx-runtime").JSX.Element;
+export default TableContent;

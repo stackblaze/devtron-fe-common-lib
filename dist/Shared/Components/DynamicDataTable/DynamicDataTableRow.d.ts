@@ -1,0 +1,2 @@
+import { DynamicDataTableRowProps } from './types';
+export declare const DynamicDataTableRow: <K extends string, CustomStateType = Record<string, unknown>>({ rows, headers, readOnly, isDeletionNotAllowed, cellError, actionButtonConfig, onRowEdit, onRowDelete, leadingCellIcon, trailingCellIcon, buttonCellWrapComponent, focusableFieldKey, shouldAutoFocusOnMount, }: DynamicDataTableRowProps<K, CustomStateType>) => import("react/jsx-runtime").JSX.Element;

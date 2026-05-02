@@ -1,0 +1,14 @@
+import { IconBaseColorType } from '../../types';
+import { DTSwitchProps } from './types';
+export declare const ROUNDED_SWITCH_SIZE_MAP: Readonly<Record<DTSwitchProps['size'], string>>;
+export declare const SQUARE_SWITCH_SIZE_MAP: typeof ROUNDED_SWITCH_SIZE_MAP;
+export declare const SWITCH_HEIGHT_MAP: Readonly<Record<DTSwitchProps['size'], string>>;
+export declare const LOADING_COLOR_MAP: Record<DTSwitchProps['variant'], IconBaseColorType>;
+export declare const ROUNDED_SWITCH_TRACK_COLOR_MAP: Record<DTSwitchProps['variant'], string>;
+export declare const ROUNDED_SWITCH_TRACK_HOVER_COLOR_MAP: Record<DTSwitchProps['variant'], `var(--${IconBaseColorType})`>;
+export declare const SQUARE_SWITCH_TRACK_COLOR_MAP: typeof ROUNDED_SWITCH_TRACK_COLOR_MAP;
+export declare const SQUARE_SWITCH_TRACK_HOVER_COLOR_MAP: typeof ROUNDED_SWITCH_TRACK_HOVER_COLOR_MAP;
+export declare const ROUNDED_SWITCH_THUMB_SIZE_MAP: Record<DTSwitchProps['size'], string>;
+export declare const INDETERMINATE_ICON_WIDTH_MAP: Record<DTSwitchProps['size'], string>;
+export declare const SWITCH_THUMB_PADDING_MAP: Record<DTSwitchProps['size'], string>;
+export declare const THUMB_OUTER_PADDING_MAP: Record<DTSwitchProps['shape'], string>;

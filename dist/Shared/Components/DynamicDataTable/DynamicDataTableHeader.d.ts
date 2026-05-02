@@ -1,0 +1,2 @@
+import { DynamicDataTableHeaderProps } from './types';
+export declare const DynamicDataTableHeader: <K extends string, CustomStateType = Record<string, unknown>>({ headers, rows, sortingConfig, addBtnTooltip, onRowAdd, readOnly, isAdditionNotAllowed, isDeletionNotAllowed, headerComponent, actionButtonConfig, }: DynamicDataTableHeaderProps<K, CustomStateType>) => import("react/jsx-runtime").JSX.Element;

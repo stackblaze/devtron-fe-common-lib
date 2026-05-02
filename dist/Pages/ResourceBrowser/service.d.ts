@@ -1,0 +1,10 @@
+import { APIOptions, ResponseType } from '../../Common/Types';
+import { CreateResourceDTO, CreateResourcePayload, K8sResourceDetailType, K8sResourceListPayloadType, NodeActionRequest, ResourceListPayloadType, ResourceType } from './ResourceBrowser.Types';
+import { ClusterDetail, NodeCordonRequest } from './types';
+export declare const getK8sResourceList: (resourceListPayload: K8sResourceListPayloadType, signal?: AbortSignal) => Promise<ResponseType<K8sResourceDetailType>>;
+export declare const createNewResource: (resourceListPayload: CreateResourcePayload, abortControllerRef?: APIOptions["abortControllerRef"]) => Promise<ResponseType<CreateResourceDTO[]>>;
+export declare const deleteResource: (resourceListPayload: ResourceListPayloadType, abortControllerRef?: APIOptions["abortControllerRef"]) => Promise<ResponseType<ResourceType[]>>;
+export declare const deleteNodeCapacity: (requestPayload: NodeActionRequest, abortControllerRef?: APIOptions["abortControllerRef"]) => Promise<ResponseType>;
+export declare const cordonNodeCapacity: (requestPayload: NodeCordonRequest, abortControllerRef?: APIOptions["abortControllerRef"]) => Promise<ResponseType>;
+export declare const drainNodeCapacity: (requestPayload: NodeActionRequest, abortControllerRef?: APIOptions["abortControllerRef"]) => Promise<ResponseType>;
+export declare const getClusterListRaw: (abortControllerRef?: APIOptions["abortControllerRef"]) => Promise<ResponseType<ClusterDetail[]>>;

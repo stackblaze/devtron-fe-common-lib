@@ -1,0 +1,10 @@
+import { BuildInfraPayloadType, InfraConfigWithSubValues } from '../../index';
+import { BuildInfraConfigTypes, BuildInfraConfigValuesType, BuildInfraInheritActions, BuildInfraLocators, BuildInfraProfileResponseType, BuildInfraProfileTransformerParamsType, BuildXDriverType, CreateBuildInfraProfileType } from './types';
+export declare const parsePlatformConfigIntoValue: (configuration: BuildInfraConfigValuesType, addUniqueId?: boolean) => BuildInfraConfigValuesType;
+export declare const getParsedValueForUseK8sDriver: (buildxDriverType: BuildXDriverType) => boolean;
+export declare const getDoesInfraConfigContainsSubValue: (infraConfig: BuildInfraConfigTypes) => infraConfig is InfraConfigWithSubValues;
+export declare const getTransformedBuildInfraProfileResponse: ({ configurationUnits, defaultConfigurations, profile, fromCreateView, canConfigureUseK8sDriver, }: BuildInfraProfileTransformerParamsType) => BuildInfraProfileResponseType;
+export declare const getBuildxDriverTypeFromUseK8sDriver: (useK8sDriver: boolean) => BuildXDriverType;
+export declare const getBuildInfraProfilePayload: (profileInput: CreateBuildInfraProfileType["profileInput"], canConfigureUseK8sDriver: boolean) => BuildInfraPayloadType;
+export declare const getBuildInfraProfileEndpoint: () => string;
+export declare const getBuildInfraInheritActionFromLocator: (locator: BuildInfraLocators, activateLocator: boolean) => BuildInfraInheritActions;

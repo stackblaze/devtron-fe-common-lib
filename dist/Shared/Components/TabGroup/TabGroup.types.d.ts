@@ -1,0 +1,161 @@
+import { JSX } from 'react';
+import { LinkProps, NavLinkProps } from 'react-router-dom';
+import { TooltipProps } from '../../../Common/Tooltip';
+import { ComponentSizeType } from '../../constants';
+import { DataAttributes } from '../../types';
+import { IconName } from '../Icon';
+type TabComponentProps<TabTypeProps> = TabTypeProps & DataAttributes;
+type ConditionalTabType = {
+    /**
+     * Type of the tab, either `button`, `link`, `navLink` or `block`.
+     */
+    tabType: 'button';
+    /**
+     * Props passed to button component.
+     */
+    props?: TabComponentProps<Omit<React.ComponentProps<'button'>, 'className' | 'style'>>;
+    /**
+     * Indicates if the tab is currently active.
+     */
+    active?: boolean;
+} | {
+    /**
+     * Type of the tab, either `button`, `link`, `navLink` or `block`.
+     */
+    tabType: 'navLink';
+    /**
+     * Props passed to nav link component.
+     */
+    props: TabComponentProps<Omit<NavLinkProps, 'className' | 'style' | 'activeClassName'>>;
+    /**
+     * Active state is determined by matching the URL.
+     */
+    active?: never | false;
+} | {
+    /**
+     * Type of the tab, either `button`, `link`, `navLink` or `block`.
+     */
+    tabType: 'link';
+    /**
+     * Props passed to link component.
+     */
+    props: TabComponentProps<Omit<LinkProps, 'className' | 'style'>>;
+    /**
+     * Indicates if the tab is currently active.
+     */
+    active?: boolean;
+} | {
+    /**
+     * Type of the tab, either `button`, `link`, `navLink` or `block`.
+     * @note When `tabType` is set to `block`, the tab becomes non-interactive. It won't be active and will not have hover states.
+     */
+    tabType: 'block';
+    /**
+     * Props passed to div component.
+     */
+    props?: TabComponentProps<Omit<React.ComponentProps<'div'>, 'className' | 'style'>>;
+    /**
+     * Indicates if the tab is currently active.
+     */
+    active?: never | false;
+};
+type TabTooltipProps = {
+    shouldWrapTooltip: boolean;
+    tooltipProps: TooltipProps;
+} | {
+    shouldWrapTooltip?: never;
+    tooltipProps?: never;
+};
+/**
+ * Represents the properties for defining an icon in a tab group.
+ * This type allows for three configurations:
+ *
+ * 1. **Icon as a functional component or string**:
+ *    - Use the `icon` property to specify either a functional component that renders an SVG or a string representing the name of the icon.
+ *    - The `iconElement` property must not be provided in this case.
+ *
+ * 2. **Icon as a JSX element**:
+ *    - Use the `iconElement` property to specify a JSX element representing the icon.
+ *    - The `icon` property must not be provided in this case.
+ *
+ * 3. **No icon**:
+ *    - Neither `icon` nor `iconElement` is provided, resulting in no icon being displayed.
+ *
+ */
+type TabGroupIconProp = {
+    /**
+     * A functional component rendering an SVG or a string representing the icon name. Mutually exclusive with `iconElement`.
+     */
+    icon: React.FunctionComponent<React.SVGProps<SVGSVGElement>> | IconName;
+    iconElement?: never;
+} | {
+    icon?: never;
+    /**
+     * A JSX element representing the icon. Mutually exclusive with `icon`.
+     */
+    iconElement: JSX.Element;
+} | {
+    icon?: never;
+    iconElement?: never;
+};
+export type TabProps = {
+    /**
+     * Unique identifier for the tab.
+     */
+    id: string | number;
+    /**
+     * Text label for the tab.
+     */
+    label: string;
+    /**
+     * Description for the tab.
+     * @note - If passed as a `string[]`, it will be rendered with a bullet in-between strings.
+     */
+    description?: string | string[];
+    /**
+     * Badge number to be displayed on the tab, typically for notifications.
+     */
+    badge?: number;
+    /**
+     * Indicates if an indicator should be shown on the tab.
+     */
+    showIndicator?: boolean;
+    /**
+     * Indicates if a warning state should be displayed on the tab.
+     * @note error state will take precedence over warning state.
+     */
+    showWarning?: boolean;
+    /**
+     * Indicates if an error state should be displayed on the tab.
+     * @note error state will take precedence over warning state.
+     */
+    showError?: boolean;
+    /**
+     * Disables the tab, preventing interaction and indicating an inactive state.
+     */
+    disabled?: boolean;
+} & ConditionalTabType & TabTooltipProps & TabGroupIconProp;
+export interface TabGroupProps {
+    /**
+     * Array of tabs to be rendered.
+     */
+    tabs: TabProps[];
+    /**
+     * Size of the tabs.
+     * @default ComponentSizeType.large
+     */
+    size?: ComponentSizeType.large | ComponentSizeType.medium | ComponentSizeType.xl;
+    /**
+     * Optional component to be rendered on the right side of the tab list.
+     */
+    rightComponent?: React.ReactElement;
+    /**
+     * Determines if the top padding of the tab group should be hidden.
+     * @default false
+     */
+    hideTopPadding?: boolean;
+}
+export type AdditionalTabProps = {
+    uniqueGroupId: string;
+};
+export {};

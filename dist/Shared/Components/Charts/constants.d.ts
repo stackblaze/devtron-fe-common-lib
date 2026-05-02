@@ -1,0 +1,10 @@
+import { AppThemeType } from '../../Providers';
+import { ChartColorKey } from './types';
+export declare const CHART_COLORS: Record<AppThemeType, Record<ChartColorKey, string>>;
+export declare const CHART_GRID_LINES_COLORS: Record<AppThemeType, string>;
+export declare const CHART_AXIS_COLORS: Record<AppThemeType, string>;
+export declare const CHART_AXIS_LABELS_COLOR: Record<AppThemeType, string>;
+export declare const CHART_CANVAS_BACKGROUND_COLORS: Record<AppThemeType, string>;
+export declare const LINE_DASH: number[];
+export declare const MAX_BAR_THICKNESS = 96;
+export declare const DIS_JOINT_CHART_POINT_RADIUS = 4;

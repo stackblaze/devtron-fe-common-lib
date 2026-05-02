@@ -1,0 +1,4 @@
+import { ArtifactType, CIListItemType } from './types';
+export declare const CIListItem: ({ type, userApprovalMetadata, triggeredBy, children, ciPipelineId, artifactId, imageComment, imageReleaseTags, appReleaseTagNames, tagsEditable, hideImageTaggingHardDelete, appliedFilters, isSuperAdmin, promotionApprovalMetadata, appliedFiltersTimestamp, selectedEnvironmentName, renderCIListHeader, targetPlatforms, isDeploymentWithoutApproval, artifact, }: CIListItemType) => import("react/jsx-runtime").JSX.Element;
+declare const Artifacts: ({ status, artifact, blobStorageEnabled, isArtifactUploaded, downloadArtifactUrl, ciPipelineId, artifactId, isJobCI, imageComment, imageReleaseTags, appReleaseTagNames, tagsEditable, hideImageTaggingHardDelete, rootClassName, renderCIListHeader, targetPlatforms, }: ArtifactType) => import("react/jsx-runtime").JSX.Element;
+export default Artifacts;

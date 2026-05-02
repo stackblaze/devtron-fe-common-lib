@@ -1,0 +1,76 @@
+import { TooltipProps } from '../Tooltip';
+import { IconsProps, SelectPickerOptionType } from '../../Shared/Components';
+import { ComponentSizeType } from '../../Shared/constants';
+type SegmentTooltipProps = Omit<TooltipProps, 'alwaysShowTippyOnHover' | 'showOnTruncate' | 'shortcutKeyCombo' | 'placement'>;
+export type SegmentType<T = string | number> = {
+    /**
+     * If true, the segment will be in error state with error icon
+     */
+    isError?: boolean;
+    /**
+     * If true, the segment will be in disabled state
+     */
+    isDisabled?: boolean;
+    /**
+     * Value for the segment
+     */
+    value: T;
+} & (({
+    /**
+     * Label for the segment
+     *
+     * Note: Either of label or icon is required
+     */
+    label: SelectPickerOptionType['label'];
+    /**
+     * Icon for the segment
+     *
+     * Note: Either of label or icon is required
+     */
+    icon?: IconsProps['name'];
+    /**
+     * Tooltip props for the segment
+     *
+     * Note: Required if only icon is provided
+     */
+    tooltipProps?: SegmentTooltipProps;
+    ariaLabel?: never;
+} & Pick<SelectPickerOptionType, 'label'>) | {
+    label?: never;
+    tooltipProps: SegmentTooltipProps;
+    icon: IconsProps['name'];
+    /**
+     * Aria label for the segment
+     */
+    ariaLabel: string;
+});
+export type SegmentedControlProps<T = string | number> = {
+    /**
+     * List of segments to be displayed
+     */
+    segments: SegmentType<T>[];
+    /**
+     * Please make sure this is unique
+     */
+    name: string;
+    size?: Extract<ComponentSizeType, ComponentSizeType.xs | ComponentSizeType.small | ComponentSizeType.medium | ComponentSizeType.large>;
+    fullWidth?: boolean;
+    disabled?: boolean;
+} & ({
+    value?: never;
+    /**
+     * On change handler for the component
+     */
+    onChange?: (selectedSegment: SegmentType<T>) => void;
+} | {
+    /**
+     * If defined, the component is controlled and onChange needs to be handled by the parent
+     */
+    value: SegmentType<T>['value'];
+    onChange: (selectedSegment: SegmentType<T>) => void;
+});
+export interface SegmentProps<T> extends Required<Pick<SegmentedControlProps<T>, 'name' | 'onChange' | 'fullWidth' | 'size' | 'disabled'>> {
+    isSelected: boolean;
+    segment: SegmentType<T>;
+}
+export {};

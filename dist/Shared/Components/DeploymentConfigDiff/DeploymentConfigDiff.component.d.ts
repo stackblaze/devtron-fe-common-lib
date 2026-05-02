@@ -1,0 +1,2 @@
+import { DeploymentConfigDiffProps } from './DeploymentConfigDiff.types';
+export declare const DeploymentConfigDiff: ({ isLoading, configList, collapsibleNavList, navList, goBackURL, navHeading, navHelpText, isNavHelpTextShowingError, tabConfig, errorConfig, showDetailedDiffState, hideDiffState, renderedInDrawer, ...resProps }: DeploymentConfigDiffProps) => import("react/jsx-runtime").JSX.Element;

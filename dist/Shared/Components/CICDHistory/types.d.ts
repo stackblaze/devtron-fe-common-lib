@@ -1,0 +1,766 @@
+import { CSSProperties, JSX, MutableRefObject, ReactElement, ReactNode } from 'react';
+import { SupportedKeyboardKeysType } from '../../../Common/Hooks/UseRegisterShortcut/types';
+import { GVKType } from '../../../Pages/ResourceBrowser';
+import { DeploymentAppTypes, FilterConditionsListType, ImageComment, OptionType, PaginationProps, PromotionApprovalMetadataType, ReleaseTag, ResponseType, TooltipProps, UserApprovalMetadataType, useScrollable } from '../../../Common';
+import { DeploymentStageType } from '../../constants';
+import { AggregationKeys, AppDetails, BaseURLParams, DeploymentStatusDetailsBreakdownDataType, DeploymentStatusDetailsType, DeploymentStatusTimelineType, DeploymentStrategyType, GitTriggers, Node, NodeType, ResourceKindType, ResourceVersionType, TargetPlatformsDTO } from '../../types';
+import { TargetPlatformBadgeListProps } from '../TargetPlatforms';
+export declare enum HistoryComponentType {
+    CI = "CI",
+    CD = "CD",
+    GROUP_CI = "GROUP_CI",
+    GROUP_CD = "GROUP_CD"
+}
+export declare enum FetchIdDataStatus {
+    SUCCESS = "SUCCESS",
+    FETCHING = "FETCHING",
+    SUSPEND = "SUSPEND"
+}
+export interface LogResizeButtonType {
+    /**
+     * If given, that shortcut combo will be bound to the button
+     * @default null
+     */
+    shortcutCombo?: SupportedKeyboardKeysType[];
+    /**
+     * If true, only show the button when location.pathname contains '/logs'
+     * @default true
+     */
+    showOnlyWhenPathIncludesLogs?: boolean;
+    fullScreenView: boolean;
+    setFullScreenView: React.Dispatch<React.SetStateAction<boolean>>;
+}
+export interface RunSourceType {
+    id: number;
+    identifier: string;
+    kind: ResourceKindType;
+    name: string;
+    releaseTrackName: string;
+    releaseVersion: string;
+    version: ResourceVersionType;
+}
+interface CiMaterial {
+    id: number;
+    gitMaterialId: number;
+    gitMaterialUrl: string;
+    gitMaterialName: string;
+    type: string;
+    value: string;
+    active: boolean;
+    lastFetchTime: string;
+    isRepoError: boolean;
+    repoErrorMsg: string;
+    isBranchError: boolean;
+    branchErrorMsg: string;
+    url: string;
+}
+export interface CICDSidebarFilterOptionType extends OptionType {
+    pipelineId: number;
+    pipelineType?: string;
+    deploymentAppDeleteRequest?: boolean;
+}
+export interface TargetConfigType {
+    tenantIcon?: string;
+    tenantId?: string;
+    tenantName?: string;
+    installationId?: string;
+    installationName?: string;
+    releaseChannelId?: string;
+    releaseChannelName?: string;
+}
+export declare enum WorkflowExecutionStageType {
+    WORKFLOW = "workflow",
+    POD = "pod"
+}
+export declare enum WorkflowStageStatusType {
+    NOT_STARTED = "NOT_STARTED",
+    RUNNING = "RUNNING",
+    SUCCEEDED = "SUCCEEDED",
+    FAILED = "FAILED",
+    ABORTED = "ABORTED",
+    TIMEOUT = "TIMEOUT",
+    UNKNOWN = "UNKNOWN"
+}
+export declare enum WorkflowExecutionStageNameType {
+    PREPARATION = "Preparation",
+    EXECUTION = "Execution"
+}
+interface WorkflowExecutionStageCommonDTO {
+    status: WorkflowStageStatusType;
+    stageName: WorkflowExecutionStageNameType;
+    startTime: string;
+    endTime: string;
+    message: string;
+}
+export interface PodExecutionStageDTO extends WorkflowExecutionStageCommonDTO {
+    metadata: {
+        clusterId?: number;
+    };
+}
+export interface WorkflowExecutionStagesMapDTO {
+    workflowExecutionStages: Record<WorkflowExecutionStageType.WORKFLOW, WorkflowExecutionStageCommonDTO[]> & Record<WorkflowExecutionStageType.POD, PodExecutionStageDTO[]>;
+}
+export interface History extends Pick<TargetPlatformsDTO, 'targetPlatforms'>, WorkflowExecutionStagesMapDTO {
+    id: number;
+    name: string;
+    status: string;
+    podStatus: string;
+    podName: string;
+    message: string;
+    startedOn: string;
+    finishedOn: string;
+    ciPipelineId: number;
+    namespace: string;
+    logLocation: string;
+    gitTriggers: Map<number, GitTriggers>;
+    ciMaterials: CiMaterial[];
+    triggeredBy: number;
+    artifact: string;
+    artifactId: number;
+    triggeredByEmail: string;
+    stage?: DeploymentStageType;
+    blobStorageEnabled?: boolean;
+    isArtifactUploaded?: boolean;
+    userApprovalMetadata?: UserApprovalMetadataType;
+    IsVirtualEnvironment?: boolean;
+    helmPackageName?: string;
+    environmentName?: string;
+    imageComment?: ImageComment;
+    imageReleaseTags?: ReleaseTag[];
+    appReleaseTagNames?: string[];
+    tagsEditable?: boolean;
+    appliedFilters?: FilterConditionsListType[];
+    appliedFiltersTimestamp?: string;
+    promotionApprovalMetadata?: PromotionApprovalMetadataType;
+    triggerMetadata?: string;
+    runSource?: RunSourceType;
+    targetConfig?: TargetConfigType;
+    isDeploymentWithoutApproval?: boolean;
+}
+export interface ExecutionInfoType {
+    /**
+     * Triggered is assumed to be true always, so status will be Succeeded
+     * Extracted from Preparation start time, if there, in case of old data this will be execution start time
+     * If triggeredOn is not there will not show startTime next to Triggered label but will show other details if possible like commit info, etc.
+     * and capture error on sentry
+     */
+    triggeredOn: string;
+    /**
+     * Extracted from startTime from Execution stage (since will work in both old and new format)
+     * If this is not given then, we won't be showing Execution started field
+     * If preparation field has failed, then we will be using finishedOn field to show the status
+     */
+    executionStartedOn: string;
+    /**
+     * Will be the endTime of Execution stage.
+     */
+    finishedOn?: string;
+    currentStatus: Exclude<WorkflowStageStatusType, WorkflowStageStatusType.NOT_STARTED>;
+    workerDetails: Pick<PodExecutionStageDTO, 'message' | 'status' | 'endTime'> & Pick<PodExecutionStageDTO['metadata'], 'clusterId'>;
+}
+export interface DeploymentHistoryResultObject {
+    cdWorkflows: History[];
+    appReleaseTagNames: string[];
+    tagsEditable: boolean;
+    hideImageTaggingHardDelete: boolean;
+}
+export interface DeploymentHistoryResult extends ResponseType {
+    result?: DeploymentHistoryResultObject;
+}
+export interface RenderRunSourceType {
+    renderRunSource?: (runSource: RunSourceType, isDeployedInThisResource: boolean) => JSX.Element;
+}
+export interface SidebarType extends RenderRunSourceType {
+    type: HistoryComponentType;
+    filterOptions: CICDSidebarFilterOptionType[];
+    triggerHistory: Map<number, History>;
+    hasMore: boolean;
+    setPagination: React.Dispatch<React.SetStateAction<{
+        offset: number;
+        size: number;
+    }>>;
+    fetchIdData?: FetchIdDataStatus;
+    handleViewAllHistory?: () => void;
+    children?: React.ReactNode;
+    resourceId?: number;
+    path: string;
+}
+export interface HistorySummaryCardType extends RenderRunSourceType, Pick<History, 'workflowExecutionStages' | 'podName' | 'namespace'>, Pick<SidebarType, 'path'> {
+    id: number;
+    status: string;
+    startedOn: string;
+    triggeredBy: number;
+    triggeredByEmail: string;
+    ciMaterials: CiMaterial[];
+    gitTriggers: Map<number, GitTriggers>;
+    artifact: string;
+    type: HistoryComponentType;
+    stage: DeploymentStageType;
+    dataTestId?: string;
+    runSource?: RunSourceType;
+    /**
+     * resourceId is optional as of now since resource is not shown at all places, in future should be mandatory if we show run source at all places
+     */
+    resourceId?: number;
+}
+export interface DeploymentSummaryTooltipCardType {
+    status: string;
+    startedOn: string;
+    triggeredBy: number;
+    triggeredByEmail: string;
+    ciMaterials: CiMaterial[];
+    gitTriggers: Map<number, GitTriggers>;
+}
+export interface BuildAndTaskSummaryTooltipCardProps extends Pick<History, 'workflowExecutionStages' | 'triggeredByEmail' | 'namespace' | 'podName' | 'stage'>, Pick<HistorySummaryCardType, 'gitTriggers' | 'ciMaterials'> {
+}
+export interface DeploymentTemplateList {
+    id: number;
+    name: string;
+    childList?: string[];
+}
+export interface CurrentStatusType {
+    status: string;
+    finishedOn: string;
+    artifact: string;
+    stage: DeploymentStageType;
+    type: HistoryComponentType;
+    executionInfo: ExecutionInfoType;
+}
+export interface StartDetailsType {
+    startedOn: string;
+    triggeredBy: number;
+    triggeredByEmail: string;
+    ciMaterials: CiMaterial[];
+    gitTriggers: Map<number, GitTriggers>;
+    artifact: string;
+    type: HistoryComponentType;
+    environmentName?: string;
+    /**
+     * Callback handler for showing the target config
+     */
+    renderTargetConfigInfo?: () => ReactElement;
+    stage: DeploymentStageType;
+}
+export interface TriggerDetailsType extends Pick<StartDetailsType, 'renderTargetConfigInfo'>, Pick<History, 'workflowExecutionStages' | 'namespace'> {
+    status: string;
+    startedOn: string;
+    finishedOn: string;
+    triggeredBy: number;
+    triggeredByEmail: string;
+    ciMaterials: CiMaterial[];
+    gitTriggers: Map<number, GitTriggers>;
+    message: string;
+    podStatus: string;
+    type: HistoryComponentType;
+    stage: DeploymentStageType;
+    artifact?: string;
+    environmentName?: string;
+    isJobView?: boolean;
+    workerPodName?: string;
+    triggerMetadata?: string;
+    renderDeploymentHistoryTriggerMetaText: (triggerMetaData: string, onlyRenderIcon?: boolean) => JSX.Element;
+    /**
+     * Only present in case of CD trigger details as of now
+     */
+    isLatest?: boolean;
+    /**
+     * Only present in case of CD trigger details as of now
+     */
+    appName?: string;
+}
+export declare enum ResourceConflictModalType {
+    DEPLOY_DIALOG = "DEPLOY_DIALOG",
+    RESOURCE_DETAIL_MODAL = "RESOURCE_DETAIL_MODAL"
+}
+interface ResourceConflictDialogBaseProps extends Required<Pick<TriggerDetailsType, 'appName' | 'environmentName'>> {
+    handleClose: () => void;
+}
+export interface ResourceConflictDeployDialogProps extends ResourceConflictDialogBaseProps {
+}
+export interface ResourceConflictDetailsModalProps extends ResourceConflictDialogBaseProps {
+}
+export type TriggerOutputURLParamsType = Pick<BaseURLParams, 'appId' | 'envId'> & {
+    triggerId: string;
+    pipelineId: string;
+};
+export type ProgressingStatusType = {
+    stage: DeploymentStageType;
+    type: HistoryComponentType;
+    /**
+     * @default 'In progress''
+     */
+    label?: string;
+};
+export interface CurrentStatusIconProps {
+    status: string;
+    executionInfoCurrentStatus: WorkflowStageStatusType;
+}
+export interface WorkerStatusType extends Pick<ExecutionInfoType['workerDetails'], 'clusterId'>, Pick<TriggerDetailsType, 'namespace'> {
+    message: string;
+    podStatus: string;
+    stage: DeploymentStageType;
+    finishedOn?: string;
+    workerPodName?: string;
+    workerMessageContainerClassName?: string;
+    titleClassName?: string;
+    viewWorkerPodClassName?: string;
+    /**
+     * @default false
+     */
+    hideShowMoreMessageButton?: boolean;
+    children?: ReactNode;
+}
+export type FinishedType = {
+    artifact: string;
+    type: HistoryComponentType;
+} & ({
+    status: string;
+    finishedOn: string;
+    executionInfo?: never;
+} | {
+    executionInfo: ExecutionInfoType;
+    status?: never;
+    finishedOn?: never;
+});
+export type DeploymentStatusDetailsResponse = ResponseType<DeploymentStatusDetailsType>;
+export interface DeploymentDetailStepsType extends Pick<History, 'isDeploymentWithoutApproval'> {
+    deploymentStatus?: string;
+    deploymentAppType?: DeploymentAppTypes;
+    isHelmApps?: boolean;
+    installedAppVersionHistoryId?: number;
+    isGitops?: boolean;
+    userApprovalMetadata?: UserApprovalMetadataType;
+    isVirtualEnvironment?: boolean;
+    processVirtualEnvironmentDeploymentData: (data?: DeploymentStatusDetailsType) => DeploymentStatusDetailsBreakdownDataType;
+    renderDeploymentApprovalInfo: (userApprovalMetadata: UserApprovalMetadataType) => JSX.Element;
+}
+export interface RenderCIListHeaderProps extends Required<Pick<History, 'isDeploymentWithoutApproval'>> {
+    userApprovalMetadata: UserApprovalMetadataType;
+    triggeredBy: string;
+    appliedFilters: FilterConditionsListType[];
+    appliedFiltersTimestamp: string;
+    promotionApprovalMetadata: PromotionApprovalMetadataType;
+    selectedEnvironmentName: string;
+}
+export interface VirtualHistoryArtifactProps {
+    status: string;
+    title: string;
+    params: {
+        appId: number;
+        envId: number;
+        appName: string;
+        workflowId: number;
+    };
+}
+export type CIListItemType = Pick<History, 'promotionApprovalMetadata' | 'isDeploymentWithoutApproval'> & {
+    userApprovalMetadata?: UserApprovalMetadataType;
+    triggeredBy?: string;
+    children: ReactNode;
+    appliedFilters?: FilterConditionsListType[];
+    appliedFiltersTimestamp?: string;
+    selectedEnvironmentName?: string;
+    renderCIListHeader: (renderCIListHeaderProps: RenderCIListHeaderProps) => JSX.Element;
+} & ({
+    type: 'artifact' | 'deployed-artifact';
+    targetPlatforms: TargetPlatformBadgeListProps['targetPlatforms'];
+    ciPipelineId: number;
+    artifactId: number;
+    imageComment: ImageComment;
+    imageReleaseTags: ReleaseTag[];
+    appReleaseTagNames: string[];
+    tagsEditable: boolean;
+    hideImageTaggingHardDelete: boolean;
+    isSuperAdmin: boolean;
+    artifact: string;
+} | {
+    type: 'report';
+    targetPlatforms?: never;
+    ciPipelineId?: never;
+    artifactId?: never;
+    imageComment?: never;
+    imageReleaseTags?: never;
+    appReleaseTagNames?: never;
+    tagsEditable?: never;
+    hideImageTaggingHardDelete?: never;
+    isSuperAdmin?: never;
+    artifact?: never;
+});
+export interface TriggerOutputProps extends RenderRunSourceType, Pick<TriggerDetailsType, 'renderTargetConfigInfo'> {
+    fullScreenView: boolean;
+    triggerHistory: Map<number, History>;
+    setFullScreenView: React.Dispatch<React.SetStateAction<boolean>>;
+    deploymentAppType: DeploymentAppTypes;
+    isBlobStorageConfigured: boolean;
+    appReleaseTags: string[];
+    tagsEditable: boolean;
+    hideImageTaggingHardDelete: boolean;
+    fetchIdData: FetchIdDataStatus;
+    appName: string;
+    selectedEnvironmentName?: string;
+    renderCIListHeader?: (renderCIListHeaderProps: RenderCIListHeaderProps) => JSX.Element;
+    renderDeploymentApprovalInfo?: (userApprovalMetadata: UserApprovalMetadataType) => JSX.Element;
+    processVirtualEnvironmentDeploymentData?: (data?: DeploymentStatusDetailsType) => DeploymentStatusDetailsBreakdownDataType;
+    renderVirtualHistoryArtifacts?: (virtualHistoryArtifactProps: VirtualHistoryArtifactProps) => JSX.Element;
+    renderDeploymentHistoryTriggerMetaText?: (triggerMetaData: string) => JSX.Element;
+    resourceId?: number;
+    deploymentHistoryResult: Pick<DeploymentHistoryResult, 'result'>;
+    setFetchTriggerIdData: React.Dispatch<React.SetStateAction<FetchIdDataStatus>>;
+    setTriggerHistory: React.Dispatch<React.SetStateAction<Map<Number, History>>>;
+    scrollToTop: ReturnType<typeof useScrollable>[1];
+    scrollToBottom: ReturnType<typeof useScrollable>[2];
+    pathPattern: string;
+}
+export interface HistoryLogsProps extends Pick<TriggerOutputProps, 'scrollToTop' | 'scrollToBottom' | 'setFullScreenView' | 'deploymentAppType' | 'isBlobStorageConfigured' | 'appReleaseTags' | 'tagsEditable' | 'hideImageTaggingHardDelete' | 'selectedEnvironmentName' | 'processVirtualEnvironmentDeploymentData' | 'renderDeploymentApprovalInfo' | 'renderCIListHeader' | 'renderVirtualHistoryArtifacts' | 'fullScreenView' | 'appName' | 'triggerHistory' | 'pathPattern'>, Pick<TargetPlatformBadgeListProps, 'targetPlatforms'> {
+    triggerDetails: History;
+    loading: boolean;
+    userApprovalMetadata: UserApprovalMetadataType;
+    triggeredByEmail: string;
+    artifactId: number;
+    ciPipelineId: number;
+    resourceId?: number;
+    renderRunSource: (runSource: RunSourceType, isDeployedInThisResource: boolean) => JSX.Element;
+}
+export interface LogsRendererType extends Pick<HistoryLogsProps, 'fullScreenView' | 'triggerDetails' | 'isBlobStorageConfigured'> {
+    parentType: HistoryComponentType;
+}
+export interface DeploymentStatusDetailBreakdownType {
+    deploymentStatusDetailsBreakdownData: DeploymentStatusDetailsBreakdownDataType;
+    isVirtualEnvironment?: boolean;
+    /**
+     * Won't be available if coming directly to deployment history from url
+     */
+    appDetails: AppDetails | null;
+    rootClassName?: string;
+    deploymentAppType: DeploymentAppTypes;
+}
+export interface DeploymentStatusDetailRowType extends Pick<DeploymentStatusDetailBreakdownType, 'appDetails'> {
+    type: DeploymentStatusTimelineType;
+    hideVerticalConnector?: boolean;
+    deploymentDetailedData: DeploymentStatusDetailsBreakdownDataType;
+}
+export interface DeploymentHistorySingleValue {
+    displayName: string;
+    value: string;
+    variableSnapshot?: object;
+    resolvedValue?: string;
+    tooltipContent?: TooltipProps['content'];
+}
+export interface DeploymentHistoryDetail {
+    componentName?: string;
+    values: Record<string, DeploymentHistorySingleValue>;
+    codeEditorValue: DeploymentHistorySingleValue;
+}
+export interface DeploymentTemplateHistoryType {
+    currentConfiguration: DeploymentHistoryDetail;
+    baseTemplateConfiguration: DeploymentHistoryDetail;
+    previousConfigAvailable: boolean;
+    rootClassName?: string;
+}
+export interface DeploymentHistorySidebarType {
+    deploymentHistoryList: DeploymentTemplateList[];
+    setDeploymentHistoryList: React.Dispatch<React.SetStateAction<DeploymentTemplateList[]>>;
+}
+export interface StatusFilterButtonType {
+    nodes: Array<Node>;
+    selectedTab: string;
+    handleFilterClick?: (selectedFilter: string) => void;
+    maxInlineFiltersCount?: number;
+}
+export declare enum NodeStatusDTO {
+    Healthy = "Healthy",
+    Progressing = "Progressing",
+    Unknown = "Unknown",
+    Suspended = "Suspended",
+    Degraded = "Degraded",
+    Missing = "Missing"
+}
+export declare enum NodeStatus {
+    Degraded = "degraded",
+    Healthy = "healthy",
+    Progressing = "progressing",
+    Missing = "missing",
+    Suspended = "suspended",
+    Unknown = "unknown"
+}
+export declare enum NodeFilters {
+    drifted = "drifted"
+}
+type NodesMap = {
+    [key in NodeType]?: Map<string, any>;
+};
+type Aggregation = {
+    [key in AggregationKeys]: NodesMap;
+};
+export interface AggregatedNodes {
+    nodes: NodesMap;
+    aggregation: Aggregation;
+    statusCount: {
+        [status: string]: number;
+    };
+    nodeStatusCount: {
+        [node in NodeType]?: {
+            [status: string]: number;
+        };
+    };
+    aggregatorStatusCount: {
+        [aggregator in AggregationKeys]?: {
+            [status: string]: number;
+        };
+    };
+}
+export declare const STATUS_SORTING_ORDER: {
+    missing: number;
+    degraded: number;
+    progressing: number;
+    healthy: number;
+};
+export interface TriggerDetailsResponseType extends ResponseType {
+    result?: History;
+}
+export interface ScrollerType {
+    scrollToTop: (e: any) => void;
+    scrollToBottom: (e: any) => void;
+    style: CSSProperties;
+}
+export type GitChangesType = {
+    gitTriggers: Map<number, GitTriggers>;
+    ciMaterials: CiMaterial[];
+} & ({
+    artifact?: never;
+    promotionApprovalMetadata?: never;
+    targetPlatforms?: never;
+    selectedEnvironmentName?: never;
+    userApprovalMetadata?: never;
+    triggeredByEmail?: never;
+    imageComment?: never;
+    imageReleaseTags?: never;
+    artifactId?: never;
+    ciPipelineId?: never;
+    appReleaseTagNames?: never;
+    tagsEditable?: never;
+    hideImageTaggingHardDelete?: never;
+    appliedFilters?: never;
+    appliedFiltersTimestamp?: never;
+    renderCIListHeader?: never;
+    isDeploymentWithoutApproval?: never;
+} | {
+    artifact: string;
+    promotionApprovalMetadata: History['promotionApprovalMetadata'];
+    targetPlatforms: TargetPlatformBadgeListProps['targetPlatforms'];
+    selectedEnvironmentName: CIListItemType['selectedEnvironmentName'];
+    userApprovalMetadata?: UserApprovalMetadataType;
+    triggeredByEmail?: string;
+    imageComment?: ImageComment;
+    imageReleaseTags?: ReleaseTag[];
+    artifactId?: number;
+    ciPipelineId?: number;
+    appReleaseTagNames?: string[];
+    tagsEditable?: boolean;
+    hideImageTaggingHardDelete?: boolean;
+    appliedFilters?: FilterConditionsListType[];
+    appliedFiltersTimestamp?: string;
+    renderCIListHeader: (renderCIListHeaderProps: RenderCIListHeaderProps) => JSX.Element;
+    isDeploymentWithoutApproval?: History['isDeploymentWithoutApproval'];
+});
+export interface ArtifactType extends Pick<TargetPlatformBadgeListProps, 'targetPlatforms'> {
+    status: string;
+    artifact: string;
+    blobStorageEnabled: boolean;
+    isArtifactUploaded?: boolean;
+    downloadArtifactUrl?: string;
+    isJobCI?: boolean;
+    ciPipelineId?: number;
+    artifactId?: number;
+    imageComment?: ImageComment;
+    imageReleaseTags?: ReleaseTag[];
+    appReleaseTagNames?: string[];
+    tagsEditable?: boolean;
+    hideImageTaggingHardDelete?: boolean;
+    rootClassName?: string;
+    renderCIListHeader: (renderCIListHeaderProps: RenderCIListHeaderProps) => JSX.Element;
+}
+export interface DeploymentHistory {
+    id: number;
+    cd_workflow_id: number;
+    name: string;
+    status: string;
+    pod_status: string;
+    message: string;
+    started_on: string;
+    finished_on: string;
+    pipeline_id: number;
+    namespace: string;
+    log_file_path: string;
+    triggered_by: number;
+    email_id?: string;
+    image: string;
+    workflow_type?: string;
+    imageComment?: ImageComment;
+    imageReleaseTags?: ReleaseTag[];
+    ci_artifact_id?: number;
+    runSource?: RunSourceType;
+}
+export interface DeploymentStrategy {
+    deploymentTemplate: DeploymentStrategyType;
+    config: any;
+    default: boolean;
+}
+interface PrePostStage {
+    triggerType: 'AUTOMATIC' | 'MANUAL';
+    name: string;
+    config: string;
+}
+interface CDPipeline {
+    id: number;
+    environmentId: number;
+    environmentName: string;
+    description: string;
+    ciPipelineId: number;
+    triggerType: string;
+    name: string;
+    strategies: DeploymentStrategy[];
+    deploymentTemplate: string;
+    preStage: PrePostStage;
+    postStage: PrePostStage;
+    preStageConfigMapSecretNames: {
+        configMaps: string[];
+        secrets: string[];
+    };
+    postStageConfigMapSecretNames: {
+        configMaps: string[];
+        secrets: string[];
+    };
+    runPreStageInEnv: boolean;
+    runPostStageInEnv: boolean;
+    isClusterCdActive: boolean;
+    deploymentAppType?: DeploymentAppTypes;
+    isDeploymentBlocked?: boolean;
+}
+export interface CDPipelines {
+    pipelines: CDPipeline[];
+}
+export interface ModuleConfigResponse extends ResponseType {
+    result?: {
+        enabled: boolean;
+    };
+}
+export type DeploymentHistoryBaseParamsType = {
+    appId: string;
+    envId: string;
+    pipelineId: string;
+};
+export interface TriggerHistoryParamsType {
+    appId: number;
+    envId: number;
+    pagination: Pick<PaginationProps, 'offset' | 'size'>;
+    releaseId?: number;
+    showCurrentReleaseDeployments?: boolean;
+}
+export interface TriggerHistoryFilterCriteriaProps {
+    appId: number;
+    envId: number;
+    releaseId: number;
+    showCurrentReleaseDeployments: boolean;
+}
+export declare enum StageStatusType {
+    SUCCESS = "Success",
+    FAILURE = "Failure",
+    /**
+     * Not given in API response
+     */
+    PROGRESSING = "Progressing"
+}
+export interface StageInfoDTO {
+    stage: string;
+    startTime: string;
+    endTime?: string;
+    status?: StageStatusType;
+    metadata: Partial<Pick<TargetPlatformsDTO, 'targetPlatforms'>>;
+}
+export interface StageDetailType extends Pick<StageInfoDTO, 'stage' | 'startTime' | 'endTime' | 'status'> {
+    logs: string[];
+    isOpen: boolean;
+    targetPlatforms?: StageInfoDTO['metadata']['targetPlatforms'];
+}
+export interface LogStageAccordionProps extends StageDetailType, Pick<LogsRendererType, 'fullScreenView'> {
+    handleStageClose: (index: number) => void;
+    handleStageOpen: (index: number) => void;
+    stageIndex: number;
+    /**
+     * A stage is loading if it is last in current stage list and event is not closed
+     */
+    isLoading: boolean;
+    searchIndex: string;
+    logsRendererRef: MutableRefObject<HTMLDivElement>;
+}
+export interface CreateMarkupReturnType {
+    __html: string;
+    isSearchKeyPresent: boolean;
+}
+export type CreateMarkupPropsType = {
+    log: string;
+    currentIndex?: never;
+    targetSearchKey?: never;
+    searchMatchResults?: never;
+    searchIndex?: never;
+} | {
+    log: string;
+    currentIndex: number;
+    targetSearchKey: string;
+    searchMatchResults: string[];
+    searchIndex: string;
+};
+export type TriggerHistoryFilterCriteriaType = `${string}|${string}|${string}`[];
+export declare const terminalStatus: Set<string>;
+export declare const statusSet: Set<string>;
+export interface CIPipelineSourceConfigInterface {
+    sourceType: string;
+    sourceValue: any;
+    showTooltip?: boolean;
+    showIcons?: boolean;
+    baseText?: string;
+    regex?: any;
+    isRegex?: boolean;
+    primaryBranchAfterRegex?: string;
+    rootClassName?: string;
+}
+export interface ResourceConflictItemType {
+    name: string;
+    namespace: string;
+    gvk: GVKType;
+    gvkTitle: string;
+    clusterId: number;
+    /**
+     * Generated at ui
+     */
+    id: string;
+}
+export interface ConflictedResourcesTableProps {
+    resourceConflictDetails: ResourceConflictItemType[];
+}
+export interface ResourceConflictDeployDialogURLParamsType extends Pick<TriggerOutputURLParamsType, 'appId' | 'envId' | 'pipelineId' | 'triggerId'> {
+}
+export interface ResourceConflictRedeployParamsType extends Pick<ResourceConflictDeployDialogURLParamsType, 'pipelineId' | 'triggerId' | 'appId'> {
+}
+export interface ResourceConflictRedeployPayloadType {
+    pipelineId: number;
+    appId: number;
+    wfrIdForDeploymentWithSpecificTrigger: number;
+    helmRedeploymentRequest: true;
+}
+export interface GetResourceConflictDetailsParamsType extends Pick<ResourceConflictDeployDialogURLParamsType, 'pipelineId' | 'triggerId' | 'appId'> {
+    signal: AbortSignal;
+}
+export interface ResourceConflictListItemDTO {
+    clusterId: number;
+    conflictingResources: {
+        name: string;
+        namespace: string;
+        groupVersionKind: {
+            Group: string;
+            Version: string;
+            Kind: NodeType;
+        };
+    }[];
+}
+export {};

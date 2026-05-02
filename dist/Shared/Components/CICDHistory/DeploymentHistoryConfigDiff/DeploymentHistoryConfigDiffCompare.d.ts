@@ -1,0 +1,2 @@
+import { DeploymentHistoryDiffDetailedProps } from './types';
+export declare const DeploymentHistoryConfigDiffCompare: ({ envName, setFullScreenView, pipelineDeployments: initialPipelineDeployments, wfrId, urlFilters, convertVariables, setConvertVariables, triggerHistory: initialTriggerHistory, renderRunSource, resourceId, isCompareDeploymentConfigNotAvailable, pathPattern, ...props }: DeploymentHistoryDiffDetailedProps) => import("react/jsx-runtime").JSX.Element;

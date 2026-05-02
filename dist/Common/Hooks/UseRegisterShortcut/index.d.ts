@@ -1,0 +1,3 @@
+export type { SupportedKeyboardKeysType } from './types';
+export { default as useRegisterShortcut } from './UseRegisterShortcut';
+export { default as UseRegisterShortcutProvider } from './UseRegisterShortcutProvider';

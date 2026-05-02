@@ -1,0 +1,3 @@
+import { ImageButtonType, ImageTaggingContainerType } from './ImageTags.Types';
+export declare const ImageTagsContainer: ({ ciPipelineId, artifactId, imageComment, imageReleaseTags, updateCurrentAppMaterial, appReleaseTagNames, setAppReleaseTagNames, tagsEditable, setTagsEditable, toggleCardMode, hideHardDelete, forceReInit, isSuperAdmin, }: ImageTaggingContainerType) => import("react/jsx-runtime").JSX.Element;
+export declare const ImageTagButton: ({ text, isSoftDeleted, isEditing, onSoftDeleteClick, onHardDeleteClick, tagId, softDeleteTags, isSuperAdmin, duplicateTag, hideHardDelete, startIcon, }: ImageButtonType) => import("react/jsx-runtime").JSX.Element;

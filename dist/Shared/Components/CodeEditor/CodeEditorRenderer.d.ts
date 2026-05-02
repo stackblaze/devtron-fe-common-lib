@@ -1,0 +1,2 @@
+import { CodeEditorRendererProps } from './types';
+export declare const CodeEditorRenderer: ({ codemirrorMergeKey, theme, loading, customLoader, height, codeEditorTheme, readOnly, handleLhsOnChange, originalViewExtensions, handleOnChange, modifiedViewExtensions, codeMirrorParentDivRef, shebang, placeholder, onFocus, onBlur, extensions, autoFocus, diffMinimapExtensions, collapseUnchanged, disableMinimap, }: CodeEditorRendererProps) => import("react/jsx-runtime").JSX.Element;

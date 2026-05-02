@@ -1,0 +1,5 @@
+export declare const ENVIRONMENT_SELECTOR_TEXT: {
+    DEFAULT_PLACEHOLDER: string;
+    GROUP_HEADING_PREFIX: string;
+    NO_ENVIRONMENTS_AVAILABLE: string;
+};

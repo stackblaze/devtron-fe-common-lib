@@ -1,0 +1,1337 @@
+import { ReactNode } from 'react';
+import { ParsedCountry } from 'react-international-phone';
+import { Dayjs } from 'dayjs';
+import { APIOptions, ApprovalConfigDataType, Strategy } from '../Common/Types';
+import { OverrideMergeStrategyType, ReleaseMode } from '../Pages/index';
+import { CommonNodeAttr, DeploymentAppTypes, OptionType, PluginType, RefVariableType, SegmentedControlProps, ServerError, ServerErrors, SortingParams, TriggerBlockType, ValueConstraintType, VariableType, VulnerabilityType } from '../Common';
+import { SelectPickerOptionType, WorkflowRunnerStatusDTO } from './Components';
+import { BASE_CONFIGURATION_ENV_ID, DEPLOYMENT_STATUS, EnvironmentTypeEnum, PatchOperationType } from './constants';
+export interface customEnv {
+    SENTRY_ENV?: string;
+    SENTRY_ERROR_ENABLED?: boolean;
+    SENTRY_PERFORMANCE_ENABLED?: boolean;
+    SENTRY_DSN?: string;
+    /**
+     * Release version for sentry
+     *
+     * @default 'dashboard@${SHORT_GIT_HASH}'
+     */
+    SENTRY_RELEASE_VERSION?: string;
+    SENTRY_TRACES_SAMPLE_RATE?: number;
+    CLUSTER_NAME?: boolean;
+    APPLICATION_METRICS_ENABLED?: boolean;
+    GA_ENABLED?: boolean;
+    GA_TRACKING_ID?: string;
+    GTM_ENABLED?: boolean;
+    GTM_ID?: string;
+    RECOMMEND_SECURITY_SCANNING?: boolean;
+    FORCE_SECURITY_SCANNING?: boolean;
+    ENABLE_CI_JOB?: boolean;
+    HIDE_DISCORD?: boolean;
+    POSTHOG_ENABLED?: boolean;
+    POSTHOG_TOKEN?: string;
+    DEVTRON_APP_DETAILS_POLLING_INTERVAL?: number;
+    HELM_APP_DETAILS_POLLING_INTERVAL?: number;
+    EA_APP_DETAILS_POLLING_INTERVAL?: number;
+    CENTRAL_API_ENDPOINT?: string;
+    HIDE_GITOPS_OR_HELM_OPTION?: boolean;
+    CONFIGURABLE_TIMEOUT?: string;
+    K8S_CLIENT?: boolean;
+    CLUSTER_TERMINAL_CONNECTION_POLLING_INTERVAL?: number;
+    CLUSTER_TERMINAL_CONNECTION_RETRY_COUNT?: number;
+    ENABLE_CHART_SEARCH_IN_HELM_DEPLOY?: boolean;
+    HIDE_EXCLUDE_INCLUDE_GIT_COMMITS?: boolean;
+    ENABLE_BUILD_CONTEXT?: boolean;
+    CLAIR_TOOL_VERSION?: string;
+    ENABLE_SCOPED_VARIABLES?: boolean;
+    DEFAULT_CI_TRIGGER_TYPE_MANUAL: boolean;
+    ANNOUNCEMENT_BANNER_MSG?: string;
+    ANNOUNCEMENT_BANNER_TYPE?: string;
+    ANNOUNCEMENT_BANNER_BUTTON_TEXT?: string;
+    ANNOUNCEMENT_BANNER_BUTTON_LINK?: string;
+    HIDE_DEFAULT_CLUSTER?: boolean;
+    GLOBAL_API_TIMEOUT?: number;
+    TRIGGER_API_TIMEOUT?: number;
+    NODE_REACT_APP_GIT_SHA?: string;
+    REACT_APP_GIT_SHA?: string;
+    NODE_ENV?: string;
+    SIDEBAR_DT_LOGO?: string;
+    ENABLE_EXTERNAL_ARGO_CD: boolean;
+    API_BATCH_SIZE: number;
+    SERVICE_WORKER_TIMEOUT?: string;
+    /**
+     * @default false
+     */
+    FEATURE_USER_DEFINED_GITOPS_REPO_ENABLE: boolean;
+    ORGANIZATION_NAME: string;
+    FEATURE_EXTERNAL_FLUX_CD_ENABLE: boolean;
+    /**
+     * If true, the direct permissions are hidden for non-super admins in user permissions
+     *
+     * @default false
+     */
+    FEATURE_HIDE_USER_DIRECT_PERMISSIONS_FOR_NON_SUPER_ADMINS?: boolean;
+    FEATURE_PROMO_EMBEDDED_BUTTON_TEXT?: string;
+    FEATURE_PROMO_EMBEDDED_MODAL_TITLE?: string;
+    FEATURE_PROMO_EMBEDDED_IFRAME_URL?: string;
+    FEATURE_BULK_RESTART_WORKLOADS_FROM_RB: string;
+    FEATURE_RB_SYNC_CLUSTER_ENABLE?: boolean;
+    FEATURE_DEFAULT_MERGE_STRATEGY?: OverrideMergeStrategyType;
+    FEATURE_DEFAULT_LANDING_RB_ENABLE?: boolean;
+    FEATURE_ACTION_AUDIOS_ENABLE?: boolean;
+    /**
+     * If true, only pipelines to which the user has access will be shown across the application
+     * @default false
+     */
+    FEATURE_DEFAULT_AUTHENTICATED_VIEW_ENABLE?: boolean;
+    /**
+     * Enable Image promotion feature
+     *
+     * @default false
+     */
+    FEATURE_IMAGE_PROMOTION_ENABLE?: boolean;
+    /**
+     * Enable environment list for scoped variables
+     *
+     * @default false
+     */
+    FEATURE_SCOPED_VARIABLE_ENVIRONMENT_LIST_ENABLE?: boolean;
+    /**
+     * If true, Enable SDH feature
+     *
+     * @default false
+     */
+    FEATURE_SOFTWARE_DISTRIBUTION_HUB_ENABLE?: boolean;
+    /**
+     * Enable resource watcher
+     *
+     * @default false
+     */
+    FEATURE_RESOURCE_WATCHER_ENABLE?: boolean;
+    /**
+     * Enable config drift
+     *
+     * @default false
+     */
+    FEATURE_CONFIG_DRIFT_ENABLE: boolean;
+    /**
+     * Enable swap traffic (blue green deployment)
+     *
+     * @default false
+     */
+    FEATURE_SWAP_TRAFFIC_ENABLE?: boolean;
+    /**
+     * @default true
+     */
+    HIDE_NETWORK_STATUS_INTERFACE?: boolean;
+    /**
+     * @default 300000
+     */
+    SYSTEM_CONTROLLER_LISTING_TIMEOUT?: number;
+    /**
+     * If true, the application templates feature is enabled
+     *
+     * @default false
+     */
+    FEATURE_APPLICATION_TEMPLATES_ENABLE?: boolean;
+    /**
+     * @default false
+     */
+    FEATURE_REDFISH_NODE_ENABLE?: boolean;
+    GATEKEEPER_URL?: string;
+    FEATURE_AI_INTEGRATION_ENABLE?: boolean;
+    LOGIN_PAGE_IMAGE?: string;
+    /**
+     * If true, the manage traffic feature is enabled in apps & app groups.
+     *
+     * @default false
+     */
+    FEATURE_MANAGE_TRAFFIC_ENABLE?: boolean;
+    FEATURE_INFRA_PROVISION_INFO_BLOCK_HIDE?: boolean;
+    /**
+     * If true, will add flux option to deployment types in devtron apps and devtron charts
+     * @default false
+     */
+    FEATURE_FLUX_DEPLOYMENTS_ENABLE?: boolean;
+    FEATURE_LINK_EXTERNAL_FLUX_ENABLE?: boolean;
+    /**
+     * If true, online/offline connectivity banner is enabled
+     *  @default true
+     */
+    FEATURE_INTERNET_CONNECTIVITY_ENABLE?: boolean;
+    /**
+     * Show rollout progress if true, else canary step count in status
+     * @default true
+     */
+    FEATURE_CANARY_ROLLOUT_PROGRESS_ENABLE?: boolean;
+    /**
+     * Time interval in seconds to refetch command bar data - Applications List
+     */
+    COMMAND_BAR_REFETCH_INTERVAL?: number;
+    /**
+     * Enable data protection and management
+     * @default false
+     */
+    FEATURE_STORAGE_ENABLE?: boolean;
+    FEATURE_ATHENA_DEBUG_MODE_ENABLE?: boolean;
+    /** Org ID for grafana */
+    GRAFANA_ORG_ID?: number;
+}
+export declare enum InstallationType {
+    OSS_KUBECTL = "oss_kubectl",
+    OSS_HELM = "oss_helm",
+    ENTERPRISE = "enterprise"
+}
+export declare enum EnvType {
+    CHART = "helm_charts",
+    APPLICATION = "apps"
+}
+export interface EnvDetails {
+    envType: EnvType;
+    envId: number;
+    appId: number;
+}
+interface OtherEnvironment {
+    environmentId: number;
+    environmentName: string;
+    appMetrics: boolean;
+    infraMetrics: boolean;
+    prod: boolean;
+}
+export interface PodMetaData {
+    containers: Array<string>;
+    initContainers: any;
+    ephemeralContainers: any;
+    isNew: boolean;
+    name: string;
+    uid: string;
+}
+export interface Info {
+    value: string;
+    name: string;
+}
+export interface Health {
+    status: string;
+    message?: string;
+}
+export interface TargetLabel {
+    'app.kubernetes.io/instance': string;
+    'app.kubernetes.io/name': string;
+}
+export interface TargetLabels {
+    targetLabel: TargetLabel;
+}
+export interface NetworkingInfo {
+    targetLabels: TargetLabels;
+}
+export declare enum Nodes {
+    Service = "Service",
+    Alertmanager = "Alertmanager",
+    PodSecurity = "PodSecurityPolicy",
+    ConfigMap = "ConfigMap",
+    ServiceAccount = "ServiceAccount",
+    ClusterRoleBinding = "ClusterRoleBinding",
+    RoleBinding = "RoleBinding",
+    ClusterRole = "ClusterRole",
+    Role = "Role",
+    Prometheus = "Prometheus",
+    ServiceMonitor = "ServiceMonitor",
+    Deployment = "Deployment",
+    MutatingWebhookConfiguration = "MutatingWebhookConfiguration",
+    DaemonSet = "DaemonSet",
+    Secret = "Secret",
+    ValidatingWebhookConfiguration = "ValidatingWebhookConfiguration",
+    Pod = "Pod",
+    Ingress = "Ingress",
+    ReplicaSet = "ReplicaSet",
+    Endpoints = "Endpoints",
+    Cluster = "ClusterRoleBinding",
+    PodSecurityPolicy = "PodSecurityPolicy",
+    CronJob = "CronJob",
+    Job = "Job",
+    ReplicationController = "ReplicationController",
+    StatefulSet = "StatefulSet",
+    Rollout = "Rollout",
+    PersistentVolumeClaim = "PersistentVolumeClaim",
+    PersistentVolume = "PersistentVolume",
+    Containers = "Containers",// containers are being treated same way as nodes for nested table generation
+    InitContainers = "InitContainers",
+    EndpointSlice = "EndpointSlice",
+    NetworkPolicy = "NetworkPolicy",
+    StorageClass = "StorageClass",
+    VolumeSnapshot = "VolumeSnapshot",
+    VolumeSnapshotContent = "VolumeSnapshotContent",
+    VolumeSnapshotClass = "VolumeSnapshotClass",
+    PodDisruptionBudget = "PodDisruptionBudget",
+    Event = "Event",
+    Namespace = "Namespace",
+    Node = "Node",
+    Overview = "Overview",
+    MonitoringDashboard = "MonitoringDashboard",
+    UpgradeCluster = "UpgradeCluster",
+    ResourceRecommender = "ResourceRecommender"
+}
+export type NodeType = keyof typeof Nodes;
+export interface Node {
+    createdAt: Date;
+    health: Health;
+    kind: NodeType;
+    name: string;
+    namespace: string;
+    networkingInfo: NetworkingInfo;
+    resourceVersion: string;
+    uid: string;
+    version: string;
+    parentRefs: Array<Node>;
+    group: string;
+    isSelected: boolean;
+    info: Info[];
+    port: number;
+    canBeHibernated: boolean;
+    isHibernated: boolean;
+    hasDrift?: boolean;
+    status?: string;
+}
+export interface iNodes extends Array<iNode> {
+}
+export interface iNode extends Node {
+    childNodes: iNodes;
+    type: NodeType;
+    status: string;
+    pNode?: iNode;
+    /** Marks a node as an init container, used for display purposes in the resource tree. */
+    isInitContainer?: boolean;
+}
+export interface HelmReleaseStatus {
+    status: string;
+    message: string;
+    description: string;
+}
+export interface ResourceTree {
+    nodes: Node[];
+    newGenerationReplicaSet: string;
+    status: string;
+    podMetadata: PodMetaData[];
+    conditions?: any;
+    releaseStatus?: HelmReleaseStatus;
+    resourcesSyncResult?: Record<string, string>;
+    hasDrift?: boolean;
+    lastSnapshotTime?: string;
+    wfrId?: number;
+}
+export declare enum AppType {
+    DEVTRON_APP = "devtron_app",
+    DEVTRON_HELM_CHART = "devtron_helm_chart",
+    EXTERNAL_HELM_CHART = "external_helm_chart",
+    EXTERNAL_ARGO_APP = "external_argo_app",
+    EXTERNAL_FLUX_APP = "external_flux_app"
+}
+interface MaterialInfo {
+    author: string;
+    branch: string;
+    message: string;
+    modifiedTime: string;
+    revision: string;
+    url: string;
+    webhookData: string;
+}
+export interface FluxAppStatusDetail {
+    status: string;
+    message: string;
+    reason: string;
+}
+export interface AppDetails {
+    appId?: number;
+    appName: string;
+    appStoreAppName?: string;
+    appStoreAppVersion?: string;
+    appStoreChartId?: number;
+    appStoreChartName?: string;
+    appStoreInstalledAppVersionId?: number;
+    ciArtifactId?: number;
+    deprecated?: boolean;
+    environmentId?: number;
+    environmentName: string;
+    installedAppId?: number;
+    instanceDetail?: null;
+    k8sVersion?: string;
+    lastDeployedBy?: string;
+    lastDeployedTime: string;
+    namespace: string;
+    resourceTree: ResourceTree;
+    materialInfo?: MaterialInfo[];
+    releaseVersion?: string;
+    dataSource?: string;
+    lastDeployedPipeline?: string;
+    otherEnvironment?: OtherEnvironment[];
+    projectName?: string;
+    appType?: AppType;
+    helmReleaseStatus?: HelmReleaseStatus;
+    clusterId?: number;
+    notes?: string;
+    deploymentAppType?: DeploymentAppTypes;
+    ipsAccessProvided?: boolean;
+    externalCi?: boolean;
+    clusterName?: string;
+    dockerRegistryId?: string;
+    deploymentAppDeleteRequest?: boolean;
+    isApprovalPolicyApplicable?: boolean;
+    isVirtualEnvironment?: boolean;
+    imageTag?: string;
+    helmPackageName?: string;
+    appStatus?: string;
+    chartAvatar?: string;
+    fluxTemplateType?: string;
+    FluxAppStatusDetail?: FluxAppStatusDetail;
+    isPipelineTriggered?: boolean;
+    releaseMode?: ReleaseMode;
+    cdPipelineId?: number;
+    triggerType?: string;
+    parentEnvironmentName?: string;
+    ciPipelineId?: number;
+    trafficSwitched?: boolean;
+    pcoId?: number;
+}
+export interface ConfigDriftModalProps extends Required<Pick<AppDetails, 'appId'>> {
+    envId: number;
+}
+export declare enum RegistryType {
+    GIT = "git",
+    GITHUB = "github",
+    GITLAB = "gitlab",
+    BITBUCKET = "bitbucket",
+    DOCKER = "docker",
+    DOCKER_HUB = "docker-hub",
+    ACR = "acr",
+    QUAY = "quay",
+    ECR = "ecr",
+    ARTIFACT_REGISTRY = "artifact-registry",
+    GCR = "gcr",
+    OTHER = "other",
+    TTL_SH = "ttl-sh"
+}
+export declare enum DefaultUserKey {
+    system = "system",
+    admin = "admin"
+}
+export declare enum Severity {
+    CRITICAL = "critical",
+    HIGH = "high",
+    MEDIUM = "medium",
+    LOW = "low",
+    UNKNOWN = "unknown"
+}
+export interface ArtifactPromotionMetadata {
+    isConfigured: boolean;
+    isApprovalPendingForPromotion: boolean;
+}
+export interface Material {
+    gitMaterialId: number;
+    materialName: string;
+}
+export interface WorkflowType {
+    id: string;
+    name: string;
+    gitMaterials?: Material[];
+    ciConfiguredGitMaterialId?: number;
+    startX: number;
+    startY: number;
+    width: number;
+    height: number;
+    nodes: CommonNodeAttr[];
+    dag: any;
+    showTippy?: boolean;
+    appId?: number;
+    isSelected?: boolean;
+    isExceptionUser?: boolean;
+    canApproverDeploy?: boolean;
+    approvalConfiguredIdsMap?: Record<number, ApprovalConfigDataType>;
+    imageReleaseTags: string[];
+    appReleaseTags?: string[];
+    tagsEditable?: boolean;
+    hideImageTaggingHardDelete?: boolean;
+    artifactPromotionMetadata?: ArtifactPromotionMetadata;
+}
+export declare enum ModuleStatus {
+    HEALTHY = "healthy",
+    NONE = "none",
+    UNKNOWN = "unknown",
+    UPGRADING = "upgrading",
+    UPGRADE_FAILED = "upgradeFailed",
+    INSTALLED = "installed",
+    INSTALLING = "installing",
+    INSTALL_FAILED = "installFailed",
+    NOT_INSTALLED = "notInstalled",
+    TIMEOUT = "timeout"
+}
+export interface WebHookData {
+    Id: number;
+    EventActionType: string;
+    Data: any;
+}
+export interface GitTriggers {
+    Commit: string;
+    Author: string;
+    Date: Date | string;
+    Message: string;
+    Changes: string[];
+    WebhookData: WebHookData;
+    GitRepoUrl: string;
+    GitRepoName: string;
+    CiConfigureSourceType: string;
+    CiConfigureSourceValue: string;
+}
+export interface RuntimePluginVariables extends Pick<VariableType, 'name' | 'value' | 'defaultValue' | 'format' | 'fileReferenceId' | 'fileMountDir'> {
+    variableStepScope: string;
+    valueConstraint: ValueConstraintType & {
+        id: number;
+    };
+    stepVariableId: number;
+    valueType: RefVariableType;
+    stepName: string;
+    stepType: PluginType;
+    isRequired: boolean;
+    pluginIcon?: string;
+    description?: string;
+}
+export interface RuntimeParamsAPIResponseType {
+    envVariables: Record<string, string>;
+    runtimePluginVariables: RuntimePluginVariables[];
+}
+export interface RuntimeParamsTriggerPayloadType {
+    runtimeParams: {
+        runtimePluginVariables: Pick<RuntimePluginVariables, 'name' | 'fileMountDir' | 'fileReferenceId' | 'value' | 'format' | 'variableStepScope'>[];
+    };
+}
+export declare enum CIMaterialSidebarType {
+    CODE_SOURCE = "Code Source",
+    PARAMETERS = "Parameters"
+}
+export declare enum CDMaterialSidebarType {
+    IMAGE = "Image",
+    PARAMETERS = "Parameters"
+}
+/**
+ * @example Usage with specific enum for path & `unknown` type for value
+ * ```ts
+ * enum PatchKeys {
+ *  name = 'name',
+ *  description = 'description',
+ * }
+ *
+ * const query: PatchQueryType<PatchKeys> = {
+ *  op: PatchOperationType.replace,
+ *  path: PatchKeys.name,
+ *  value: '1'
+ * }
+ * ```
+ *
+ * @example Usage with specific enum for path & custom type for value
+ * ```ts
+ * enum PatchKeys {
+ *  name = 'name',
+ *  description = 'description',
+ * }
+ *
+ * const query: PatchQueryType<PatchKeys, number> = {
+ *  op: PatchOperationType.replace,
+ *  path: PatchKeys.name,
+ *  value: 1
+ * }
+ * ```
+ *
+ * @example Usage with `PatchOperationType.remove` without value
+ *
+ * ```ts
+ * const query: PatchQueryType<string> = {
+ *  op: PatchOperationType.remove,
+ *  path: 'name'
+ * }
+ * ```
+ *
+ * @example Usage with `PatchOperationType.remove` with value
+ *
+ * ```ts
+ * const query: PatchQueryType<string, number, true> = {
+ *  op: PatchOperationType.remove,
+ *  path: 'name'
+ *  value: 1
+ * }
+ * ```
+ */
+export type PatchQueryType<T extends string, K = unknown, IsRemoveValueEnabled extends boolean = false> = {
+    /**
+     * The path of the json to be patched
+     */
+    path: T;
+} & ({
+    /**
+     * Operation type for patch
+     */
+    op: PatchOperationType.replace;
+    /**
+     * Corresponding value for the operation
+     */
+    value: K;
+} | {
+    /**
+     * Operation type for patch
+     */
+    op: PatchOperationType.remove;
+    value?: IsRemoveValueEnabled extends true ? K : never;
+} | {
+    /**
+     * Operation type for add
+     */
+    op: PatchOperationType.add;
+    value?: K;
+});
+export interface GroupedOptionsType {
+    label: string;
+    options: OptionType[];
+}
+/**
+ * Enum for devtron resources
+ */
+export declare enum ResourceKindType {
+    devtronApplication = "application/devtron-application",
+    helmChart = "application/helm-application",
+    job = "job",
+    cluster = "cluster",
+    release = "release",
+    releaseTrack = "release-track",
+    releaseChannel = "release-channel",
+    tenant = "tenant",
+    installation = "installation",
+    infrastructureInstallation = "installations",
+    environment = "environment",
+    cdPipeline = "cd-pipeline",
+    ciPipeline = "ci-pipeline",
+    project = "project"
+}
+/**
+ * Versions support for the resources on BE
+ *
+ * TODO: Rename to ApiVersionType
+ */
+export declare enum ResourceVersionType {
+    v1 = "v1",
+    alpha1 = "alpha1"
+}
+export interface SeverityCount {
+    critical: number;
+    high: number;
+    medium: number;
+    low: number;
+    unknown: number;
+}
+export declare enum PolicyKindType {
+    lockConfiguration = "lock-configuration",
+    imagePromotion = "image-promotion",
+    plugins = "plugin",
+    approval = "approval"
+}
+export interface LastExecutionResultType {
+    lastExecution: string;
+    severityCount: SeverityCount;
+    vulnerabilities: VulnerabilityType[];
+    scanExecutionId?: number;
+    appId?: number;
+    appName?: string;
+    envId?: number;
+    envName?: string;
+    pod?: string;
+    replicaSet?: string;
+    image?: string;
+    objectType?: 'app' | 'chart';
+    scanned?: boolean;
+    scanEnabled?: boolean;
+    scanToolId?: number;
+    imageScanDeployInfoId?: number;
+}
+export interface MaterialSecurityInfoType {
+    isScanned: boolean;
+    isScanEnabled: boolean;
+}
+export declare enum WebhookEventNameType {
+    PULL_REQUEST = "Pull Request",
+    TAG_CREATION = "Tag Creation"
+}
+export type IntersectionOptions = {
+    root?: React.RefObject<Element>;
+    rootMargin?: string;
+    threshold?: number | number[];
+    once?: boolean;
+    defaultIntersecting?: boolean;
+};
+export type IntersectionChangeHandler = (entry: IntersectionObserverEntry) => void;
+export interface InputFieldState<T = string> {
+    value: T;
+    error: string;
+}
+export declare enum AggregationKeys {
+    Workloads = "Workloads",
+    Networking = "Networking",
+    'Config & Storage' = "Config & Storage",
+    RBAC = "RBAC",
+    Administration = "Administration",
+    'Custom Resource' = "Custom Resource",
+    'Other Resources' = "Other Resources",
+    Events = "Events",
+    Namespaces = "Namespaces",
+    'Nodes' = "Nodes"
+}
+export type AggregationKeysType = keyof typeof AggregationKeys;
+export declare enum GitOpsAuthModeType {
+    SSH = "SSH",
+    PASSWORD = "PASSWORD",
+    SSH_AND_PASSWORD = "PAT_AND_SSH"
+}
+export interface BaseGitOpsType {
+    authMode: GitOpsAuthModeType;
+    sshKey: string;
+    sshHost: string;
+    username: string;
+    token: string;
+}
+export type GitOpsFieldKeyType = 'host' | 'username' | 'token' | 'gitHubOrgId' | 'azureProjectName' | 'gitLabGroupId' | 'bitBucketWorkspaceId' | 'bitBucketProjectKey' | 'sshHost' | 'sshKey';
+export interface AppInfoListType {
+    application: string;
+    appStatus: string;
+    deploymentStatus: string;
+    lastDeployed: string;
+    lastDeployedImage?: string;
+    lastDeployedBy?: string;
+    appId: number;
+    envId: number;
+    pipelineId?: number;
+    commits?: string[];
+    ciArtifactId?: number;
+}
+export interface EnvListMinDTO {
+    id: number;
+    active: boolean;
+    allowedDeploymentTypes: DeploymentAppTypes[] | null;
+    appCount: number;
+    cluster_id: number;
+    cluster_name: string;
+    default: boolean;
+    description: string;
+    environmentIdentifier: string;
+    environment_name: string;
+    isClusterCdActive: boolean;
+    isDigestEnforcedForEnv: boolean;
+    isVirtualEnvironment: boolean;
+    namespace: string;
+}
+export interface EnvironmentType {
+    /**
+     * Unique identifier for the environment
+     */
+    id: number;
+    /**
+     * Name of the environment
+     */
+    name: string;
+    /**
+     * Associated namespace for the environment
+     */
+    namespace: string;
+    /**
+     * Type of the environment
+     */
+    environmentType: EnvironmentTypeEnum;
+    /**
+     * Associated cluster for the environment
+     */
+    cluster: string;
+    /**
+     * If true, denotes virtual environment
+     */
+    isVirtual: boolean;
+}
+export interface CreatedByDTO {
+    icon: boolean;
+    id: number;
+    name: string;
+}
+export declare enum DependencyType {
+    UPSTREAM = "upstream",
+    DOWNSTREAM = "downstream",
+    LEVEL = "level"
+}
+export declare enum PromiseAllStatusType {
+    FULFILLED = "fulfilled",
+    REJECTED = "rejected"
+}
+export type ApiQueuingWithBatchResponseItem<T> = {
+    status: PromiseAllStatusType.FULFILLED;
+    value: T;
+} | {
+    status: PromiseAllStatusType.REJECTED;
+    reason: ServerErrors;
+};
+export interface BatchConfigType {
+    lastIndex: number;
+    results: any[];
+    concurrentCount: number;
+    completedCalls: number;
+}
+export interface scrollableInterface {
+    autoBottomScroll: boolean;
+}
+export declare enum URLProtocolType {
+    HTTP = "http:",
+    HTTPS = "https:",
+    SSH = "ssh:",
+    SMTP = "smtp:",
+    S3 = "s3:"
+}
+export type BaseFilterQueryParams<T> = {
+    /**
+     * Offset for the list result
+     */
+    offset?: number;
+    /**
+     * Number of items required in the list
+     */
+    size?: number;
+    /**
+     * Search string (if any)
+     */
+    searchKey?: string;
+    /**
+     * If true, all items are returned with any search / filtering applied without pagination
+     */
+    showAll?: boolean;
+} & SortingParams<T>;
+export declare enum ConfigurationType {
+    GUI = "GUI",
+    YAML = "YAML"
+}
+export declare const CONFIGURATION_TYPE_OPTIONS: SegmentedControlProps['segments'];
+export type BaseURLParams = {
+    appId: string;
+    envId: string;
+    clusterId: string;
+};
+export interface ConfigKeysWithLockType {
+    config: string[];
+    allowed: boolean;
+}
+export type DataAttributes = Record<`data-${string}`, unknown>;
+export declare enum RuntimeParamsHeadingType {
+    KEY = "key",
+    VALUE = "value"
+}
+export declare enum ACCESS_TYPE_MAP {
+    DEVTRON_APPS = "devtron-app",// devtron app work flow
+    HELM_APPS = "helm-app",// helm app work flow
+    JOBS = ""
+}
+export declare enum EntityTypes {
+    CHART_GROUP = "chart-group",
+    DIRECT = "apps",
+    JOB = "jobs",
+    DOCKER = "docker",
+    GIT = "git",
+    CLUSTER = "cluster",
+    NOTIFICATION = "notification"
+}
+export interface CustomRoles {
+    id: number;
+    roleName: string;
+    roleDisplayName: string;
+    roleDescription: string;
+    entity: EntityTypes;
+    accessType: ACCESS_TYPE_MAP.DEVTRON_APPS | ACCESS_TYPE_MAP.HELM_APPS;
+}
+export type MetaPossibleRoles = Record<CustomRoles['roleName'], {
+    value: CustomRoles['roleDisplayName'];
+    description: CustomRoles['roleDescription'];
+}>;
+export interface CustomRoleAndMeta {
+    customRoles: CustomRoles[];
+    possibleRolesMetaForDevtron: MetaPossibleRoles;
+    possibleJobRoles: SelectPickerOptionType<string>[];
+    possibleRolesMetaForCluster: MetaPossibleRoles;
+}
+export interface UserRoleConfig {
+    baseRole: string;
+    /**
+     * Only for devtron apps
+     */
+    additionalRoles?: Set<string>;
+    /**
+     * Only for devtron apps
+     */
+    accessManagerRoles?: Set<string>;
+}
+export type RoleType = keyof UserRoleConfig;
+export type RoleSelectorOptionType = Pick<SelectPickerOptionType, 'label' | 'description'> & {
+    value: string;
+    roleType: RoleType;
+};
+interface CommonTabArgsType {
+    /**
+     * Name for the tab.
+     *
+     * Note: Used for the title
+     */
+    name: string;
+    kind?: string;
+    /**
+     * URL for the tab
+     */
+    url: string;
+    /**
+     * If true, the tab is selected
+     */
+    isSelected: boolean;
+    /**
+     * Title for the tab
+     */
+    title?: string;
+    /**
+     * Type for the tab
+     *
+     * Note: Fixed tabs are always places before dynamic tabs
+     */
+    type: 'fixed' | 'dynamic';
+    /**
+     * Dynamic title for the tab
+     *
+     * @default ''
+     */
+    dynamicTitle?: string;
+    /**
+     * Whether to show the tab name when selected
+     *
+     * @default false
+     */
+    showNameOnSelect?: boolean;
+    /**
+     * Would remove the title/name from tab heading, but that does not mean name is not required, since it is used in other calculations
+     * @default false
+     */
+    hideName?: boolean;
+    /**
+     * Indicates if showNameOnSelect tabs have been selected once
+     *
+     * @default false
+     */
+    isAlive?: boolean;
+    lastSyncMoment?: Dayjs;
+    componentKey?: string;
+    /**
+     * Custom tippy config for the tab
+     *
+     * This overrides the tippy being computed from tab title
+     */
+    tippyConfig?: {
+        title: string;
+        descriptions: {
+            info: string;
+            value: string;
+        }[];
+    };
+    /**
+     * If true, the fixed tab remains mounted on initial load of the component
+     *
+     * Note: Not for dynamic tabs atm
+     *
+     * @default false
+     */
+    shouldRemainMounted?: boolean;
+    /**
+     * @default false
+     * If true, tab would contain alpha as badge next to the title
+     */
+    isAlpha?: boolean;
+    /**
+     * On tab stop, i.e by pressing cross icon on alive tab [fixed tab expanding on click of tab and remains expanded on other tab click], tab will reset the tab to this default URL if provided
+     */
+    defaultUrl?: string | null;
+}
+export type InitTabType = Omit<CommonTabArgsType, 'type'> & ({
+    type: 'fixed';
+    /**
+     * Unique identifier for the fixed tab
+     *
+     * Note: Shouldn't contain '-'
+     */
+    id: string;
+    idPrefix?: never;
+} | {
+    type: 'dynamic';
+    id?: never;
+    idPrefix: string;
+});
+export interface DynamicTabType extends CommonTabArgsType {
+    id: string;
+}
+export interface ResourceApprovalPolicyConfigDTO {
+    appId: number;
+    envId: number;
+    approvalConfigurations: ApprovalConfigDataType[];
+}
+export interface ResourceApprovalPolicyConfigType extends Omit<ResourceApprovalPolicyConfigDTO, 'state' | 'approvalConfigurations'> {
+    isApprovalApplicable: boolean;
+    approvalConfigurationMap: Record<ApprovalConfigDataType['kind'], ApprovalConfigDataType>;
+}
+export type ResourceIdToResourceApprovalPolicyConfigMapType = Record<ResourceApprovalPolicyConfigType['envId'] | typeof BASE_CONFIGURATION_ENV_ID, Pick<ResourceApprovalPolicyConfigType, 'isApprovalApplicable' | 'approvalConfigurationMap'>>;
+export interface PolicyBlockInfo {
+    isBlocked: boolean;
+    blockedBy: TriggerBlockType;
+    reason: string;
+}
+export interface PipelineStageBlockInfo {
+    node: PolicyBlockInfo;
+    pre: PolicyBlockInfo;
+    post: PolicyBlockInfo;
+}
+export interface PolicyConsequencesDTO {
+    cd: PipelineStageBlockInfo;
+    ci: PipelineStageBlockInfo;
+}
+export interface GetPolicyConsequencesProps extends Pick<APIOptions, 'abortControllerRef'> {
+    appId: number;
+    envId: number;
+}
+export interface UploadFileDTO {
+    id: number;
+    name: string;
+    size: number;
+    mimeType: string;
+    extension: string;
+}
+export interface UploadFileProps {
+    file: File[];
+    allowedExtensions?: string[];
+    maxUploadSize?: number;
+}
+/**
+ * A utility type that transforms all properties of a given type `T` to be optional and of type `never`. \
+ * This can be useful for scenarios where you want to explicitly mark that certain properties should not exist.
+ * @template T - The type whose properties will be transformed.
+ */
+export type Never<T> = {
+    [K in keyof T]?: never;
+};
+/**
+ * A utility type that filters out properties from type `T` that are of type `never`. \
+ * This is useful when you want to remove properties that have been marked as `never` from a type,
+ * effectively creating a new type without those properties.
+ *
+ * @template T - The input type from which to filter out `never` properties.
+ * @example
+ * ```typescript
+ * type User = {
+ *   id: number;
+ *   name: string;
+ *   deleted: never;
+ * }
+ *
+ * type ActiveUser = OmitNever<User>; // { id: number; name: string; }
+ * ```
+ */
+export type OmitNever<T> = {
+    [K in keyof T as T[K] extends never ? never : K]: T[K];
+};
+export interface TargetPlatformItemDTO {
+    name: string;
+}
+export interface TargetPlatformsDTO {
+    targetPlatforms: TargetPlatformItemDTO[];
+}
+/**
+ * These status are expected to be present in workflow nodes like ci node, linked ci node, job overview, etc.
+ */
+export declare enum WorkflowStatusEnum {
+    STARTING = "Starting",
+    RUNNING = "Running",
+    PROGRESSING = "Progressing",
+    WAITING_TO_START = "WaitingToStart",
+    TIMED_OUT = "TimedOut",
+    CANCELLED = "CANCELLED"
+}
+export declare enum CIPipelineNodeType {
+    EXTERNAL_CI = "EXTERNAL-CI",
+    CI = "CI",
+    LINKED_CI = "LINKED-CI",
+    JOB_CI = "JOB-CI",
+    LINKED_CD = "LINKED_CD",
+    CI_CD = "CI_CD"
+}
+export interface ChangeCIPayloadType {
+    appWorkflowId: number;
+    switchFromCiPipelineId?: number;
+    appId: number;
+    switchFromExternalCiPipelineId?: number;
+}
+export declare const TriggerType: {
+    readonly Auto: "AUTOMATIC";
+    readonly Manual: "MANUAL";
+};
+export type ComponentLayoutType = 'row' | 'column';
+export interface BorderConfigType {
+    /**
+     * If false, (border-radius/border)-top is not applied
+     *
+     * @default true
+     */
+    top?: boolean;
+    /**
+     * If false, (border-radius/border)-right is not applied
+     *
+     * @default true
+     */
+    right?: boolean;
+    /**
+     * If false, (border-radius/border)-bottom is not applied
+     *
+     * @default true
+     */
+    bottom?: boolean;
+    /**
+     * If false, (border-radius/border)-left is not applied
+     *
+     * @default true
+     */
+    left?: boolean;
+}
+export interface AppEnvIdType {
+    appId: number;
+    envId: number;
+}
+export declare enum LicenseInfoDialogType {
+    ABOUT = "about",
+    LICENSE = "license",
+    UPDATE = "update"
+}
+export declare enum LicensingErrorCodes {
+    FingerPrintMisMatch = "11001",
+    LicenseExpired = "11002",
+    TamperedCertificate = "11003",
+    NoPublicKey = "11004",
+    InstallationModeMismatch = "11005",
+    LicKeyMismatch = "11006",
+    NoCertFound = "11007",
+    LicKeyNotFound = "11008",
+    ClusterLimitExceeded = "11011"
+}
+export interface LicenseErrorStruct {
+    code: LicensingErrorCodes;
+    userMessage: string;
+}
+export type DevtronLicenseBaseDTO = {
+    fingerprint: string | null;
+    isTrial: boolean | null;
+    isFreemium: boolean | null;
+    /**
+     * Show a reminder after these many DAYS left for license to expire, i.e,
+     * Show if `ttl` is less than `reminderThreshold` [converted to seconds]
+     */
+    reminderThreshold: number | null;
+    organisationMetadata: {
+        name: string | null;
+        domain: string | null;
+    } | null;
+    license: string | null;
+} & ({
+    isSaasInstance: true;
+    /**
+     * In seconds
+     */
+    timeElapsedSinceCreation: number;
+    creationTime: string;
+    ttl?: never;
+    expiry?: never;
+} | {
+    isSaasInstance?: false;
+    timeElapsedSinceCreation?: never;
+    creationTime?: never;
+    /**
+     * Can be negative, depicts time left in seconds for license to expire
+     */
+    ttl: number | null;
+    /**
+     * In timestamp format
+     */
+    expiry: string | null;
+});
+export type DevtronLicenseDTO<isCentralDashboard extends boolean = false> = DevtronLicenseBaseDTO & (isCentralDashboard extends true ? {
+    claimedByUserDetails: {
+        firstName: string | null;
+        lastName: string | null;
+        email: string | null;
+    } | null;
+    showLicenseData?: never;
+    licenseStatusError?: never;
+    moduleLimits?: never;
+    instanceData: {
+        devtronUrl: string;
+        devtronPassword: string;
+    } | null;
+} : {
+    claimedByUserDetails?: never;
+    instanceData?: never;
+    showLicenseData: boolean;
+    licenseStatusError?: LicenseErrorStruct;
+    moduleLimits: {
+        allAllowed: boolean;
+        maxAllowedClusters: number;
+    };
+});
+export type CountryISO2Type = ParsedCountry['iso2'];
+export declare enum ResponseHeaders {
+    LICENSE_STATUS = "X-License-Status"
+}
+export declare enum InstallationClusterType {
+    EKS_AUTO_CLUSTER = "eksAutoCluster",
+    EKS_MANUAL_CLUSTER = "eksManualCluster"
+}
+export type IconBaseSizeType = 6 | 8 | 10 | 12 | 14 | 16 | 18 | 20 | 22 | 24 | 28 | 30 | 32 | 34 | 36 | 40 | 42 | 44 | 48 | 56 | 64 | 72 | 80;
+export type IconBaseColorType = `${'B' | 'N' | 'G' | 'Y' | 'R' | 'V' | 'O'}${`${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}00` | '50' | '0'}` | 'white' | 'black' | null;
+export interface GetTimeDifferenceParamsType {
+    startTime: string;
+    endTime: string;
+    /**
+     * @default '-'
+     */
+    fallbackString?: string;
+}
+export declare enum RegistryCredentialsType {
+    USERNAME_PASSWORD = "username_password",
+    ANONYMOUS = "anonymous"
+}
+export interface SyncStageResourceDetail {
+    id: number;
+    cdWorkflowRunnerId: number;
+    resourceGroup: string;
+    resourceKind: string;
+    resourceName: string;
+    resourcePhase: string;
+    resourceStatus: string;
+    statusMessage: string;
+}
+export declare enum TIMELINE_STATUS {
+    DEPLOYMENT_INITIATED = "DEPLOYMENT_INITIATED",
+    GIT_COMMIT = "GIT_COMMIT",
+    GIT_COMMIT_FAILED = "GIT_COMMIT_FAILED",
+    ARGOCD_SYNC = "ARGOCD_SYNC",
+    ARGOCD_SYNC_FAILED = "ARGOCD_SYNC_FAILED",
+    KUBECTL_APPLY = "KUBECTL_APPLY",
+    KUBECTL_APPLY_STARTED = "KUBECTL_APPLY_STARTED",
+    KUBECTL_APPLY_SYNCED = "KUBECTL_APPLY_SYNCED",
+    HEALTHY = "HEALTHY",
+    APP_HEALTH = "APP_HEALTH",
+    DEPLOYMENT_FAILED = "FAILED",
+    FETCH_TIMED_OUT = "TIMED_OUT",
+    UNABLE_TO_FETCH_STATUS = "UNABLE_TO_FETCH_STATUS",
+    DEGRADED = "DEGRADED",
+    DEPLOYMENT_SUPERSEDED = "DEPLOYMENT_SUPERSEDED",
+    ABORTED = "ABORTED",
+    INPROGRESS = "INPROGRESS",
+    HELM_PACKAGE_GENERATED = "HELM_PACKAGE_GENERATED",
+    HELM_PACKAGE_GENERATION_FAILED = "HELM_PACKAGE_GENERATION_FAILED",
+    HELM_MANIFEST_PUSHED_TO_HELM_REPO = "HELM_MANIFEST_PUSHED_TO_HELM_REPO",
+    HELM_MANIFEST_PUSHED_TO_HELM_REPO_FAILED = "HELM_MANIFEST_PUSHED_TO_HELM_REPO_FAILED"
+}
+export interface DeploymentStatusDetailsTimelineType extends Pick<SyncStageResourceDetail, 'id' | 'cdWorkflowRunnerId'> {
+    status: TIMELINE_STATUS;
+    statusDetail: string;
+    statusTime: string;
+    resourceDetails?: SyncStageResourceDetail[];
+}
+export interface DeploymentStatusDetailsType {
+    deploymentFinishedOn: string;
+    deploymentStartedOn: string;
+    triggeredBy: string;
+    statusFetchCount: number;
+    statusLastFetchedAt: string;
+    timelines: DeploymentStatusDetailsTimelineType[];
+    wfrStatus?: WorkflowRunnerStatusDTO;
+    isDeploymentWithoutApproval: boolean;
+    deploymentAppType: DeploymentAppTypes;
+}
+export type DeploymentStatusTimelineType = TIMELINE_STATUS.DEPLOYMENT_INITIATED | TIMELINE_STATUS.GIT_COMMIT | TIMELINE_STATUS.ARGOCD_SYNC | TIMELINE_STATUS.KUBECTL_APPLY | TIMELINE_STATUS.APP_HEALTH | TIMELINE_STATUS.HELM_PACKAGE_GENERATED | TIMELINE_STATUS.HELM_MANIFEST_PUSHED_TO_HELM_REPO;
+export type DeploymentStatusBreakdownItemIconType = 'success' | 'failed' | 'unknown' | 'inprogress' | 'unreachable' | 'loading' | 'disconnect' | 'timed_out' | '';
+export declare enum DeploymentPhaseType {
+    PRE_SYNC = "PreSync",
+    SYNC = "Sync",
+    POST_SYNC = "PostSync",
+    SKIP = "Skip",
+    SYNC_FAIL = "SyncFail"
+}
+export interface DeploymentStatusBreakdownItemType {
+    icon: DeploymentStatusBreakdownItemIconType;
+    displayText: ReactNode;
+    displaySubText: string;
+    time: string;
+    /**
+     * Shown in accordion details if type is TIMELINE_STATUS.KUBECTL_APPLY to display resource details
+     */
+    resourceDetails?: SyncStageResourceDetail[];
+    isCollapsed?: boolean;
+    /**
+     * Sub-Steps in accordion details in case type is TIMELINE_STATUS.KUBECTL_APPLY
+     */
+    subSteps?: {
+        icon: DeploymentStatusBreakdownItemIconType;
+        message: string;
+        phase?: DeploymentPhaseType;
+    }[];
+    /**
+     * To be shown in accordion details below heading tile
+     */
+    timelineStatus?: ReactNode;
+    showHelmManifest?: boolean;
+}
+export interface DeploymentStatusDetailsBreakdownDataType {
+    deploymentStatus: (typeof DEPLOYMENT_STATUS)[keyof typeof DEPLOYMENT_STATUS];
+    deploymentTriggerTime: string;
+    deploymentEndTime: string;
+    triggeredBy: string;
+    deploymentStatusBreakdown: Partial<Record<DeploymentStatusTimelineType, DeploymentStatusBreakdownItemType>>;
+    errorBarConfig?: {
+        deploymentErrorMessage: string;
+        nextTimelineToProcess: DeploymentStatusTimelineType;
+    } | null;
+    deploymentAppType: DeploymentAppTypes;
+}
+export interface IntelligenceConfig {
+    clusterId: number;
+    metadata: Record<string, string | number>;
+    prompt: string;
+    analyticsCategory: string;
+}
+export type DeploymentStrategyType = 'CANARY' | 'ROLLING' | 'RECREATE' | 'BLUE-GREEN' | 'ROLLINGUPDATE' | 'ONDELETE';
+export type DeploymentStrategyTypeWithDefault = DeploymentStrategyType | 'DEFAULT';
+export type PipelineIdsVsDeploymentStrategyMap = Record<number, DeploymentStrategyTypeWithDefault>;
+export interface PipelineDeploymentStrategy {
+    pipelineId: number;
+    strategies: Strategy[];
+    error: ServerError;
+}
+export declare enum RemoteConnectionType {
+    Direct = "DIRECT",
+    Proxy = "PROXY",
+    SSHTunnel = "SSH"
+}
+export declare enum AuthenticationType {
+    BASIC = "BASIC",
+    ANONYMOUS = "ANONYMOUS",
+    IAM = "IAM"
+}
+/**
+ * Makes all props in T optional and set to never when isLoading is true.
+ * Used for components with loading states.
+ * @example See usage in CostVisibility -> cards
+ */
+export type PropsTypeWithIsLoading<T extends Record<string, any>> = (Partial<Record<keyof T, never>> & {
+    isLoading: true;
+}) | ({
+    isLoading?: false;
+} & T);
+export {};

@@ -1,0 +1,73 @@
+declare const _default: {
+    "type": "object",
+    "properties": {
+        "ContainerPort": {
+            "type": "array",
+            "description": "Defines ports on which application services will be exposed to other services",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "port": {
+                        "type": "integer",
+                        "description": "Port at which your application will run"
+                    }
+                }
+            },
+            "title": "Container Port"
+        },
+        "Limits": {
+            "type": "object",
+            "description": "Maximum RAM and CPU available to the application",
+            "required": ["CPU", "Memory"],
+            "properties": {
+                "CPU": {
+                    "type": "string",
+                    "description": "Maximum allowed CPU limit",
+                    "updatePath": "/resources/limits/cpu"
+                },
+                "Memory": {
+                    "type": "string",
+                    "description": "Maximum allowed memory limit",
+                    "updatePath": "/resources/limits/memory"
+                }
+            }
+        },
+        "Requests": {
+            "type": "object",
+            "description": "Minimum RAM and CPU available to the application",
+            "properties": {
+                "CPU": {
+                    "type": "string",
+                    "description": "Minimum CPU value",
+                    "updatePath": "/resources/requests/cpu"
+                },
+                "Memory": {
+                    "type": "string",
+                    "description": "Minimum memory value",
+                    "updatePath": "/resources/requests/memory"
+                }
+            }
+        },
+        "EnvVariables": {
+            "type": "array",
+            "description": "Contains environment variables needed by the containers",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the environment variables"
+                    },
+                    "value": {
+                        "type": "string",
+                        "description": "Value of the environment variables"
+                    }
+                }
+            },
+            "title": "Environment Variables"
+        }
+    }
+}
+;
+
+export default _default;

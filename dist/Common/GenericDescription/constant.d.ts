@@ -1,0 +1,42 @@
+import { commands } from '@uiw/react-md-editor';
+export declare const DESCRIPTION_EMPTY_ERROR_MSG = "Readme cannot be empty. Please add some information or cancel the changes.";
+export declare const DESCRIPTION_UNSAVED_CHANGES_MSG = "Are you sure you want to discard your changes?";
+export declare const TOOLBAR_SECONDARY_COMMANDS: ({
+    icon: import("react/jsx-runtime").JSX.Element;
+    children?: commands.ICommand<string>[];
+    parent?: commands.ICommand<any>;
+    keyCommand?: string;
+    name?: string;
+    shortcuts?: string;
+    groupName?: string;
+    value?: string;
+    prefix?: string;
+    suffix?: string;
+    position?: "right";
+    liProps?: import('react').LiHTMLAttributes<HTMLLIElement>;
+    buttonProps?: import('react').ButtonHTMLAttributes<HTMLButtonElement> | null;
+    render?: (command: commands.ICommand<string>, disabled: boolean, executeCommand: (command: commands.ICommand<string>, name?: string) => void, index: number) => void | undefined | null | import('react').ReactElement;
+    execute?: (state: commands.ExecuteState, api: commands.TextAreaTextApi, dispatch?: import('react').Dispatch<import('@uiw/react-md-editor').ContextStore>, executeCommandState?: import('@uiw/react-md-editor').ExecuteCommandState, shortcuts?: string[]) => void;
+} | {
+    icon: import("react/jsx-runtime").JSX.Element;
+    children?: (handle: {
+        close: () => void;
+        execute: () => void;
+        getState?: commands.TextAreaCommandOrchestrator["getState"];
+        textApi?: commands.TextAreaTextApi;
+        dispatch?: import('react').Dispatch<import('@uiw/react-md-editor').ContextStore>;
+    }) => import('react').ReactElement;
+    parent?: commands.ICommand<any>;
+    keyCommand?: string;
+    name?: string;
+    shortcuts?: string;
+    groupName?: string;
+    value?: string;
+    prefix?: string;
+    suffix?: string;
+    position?: "right";
+    liProps?: import('react').LiHTMLAttributes<HTMLLIElement>;
+    buttonProps?: import('react').ButtonHTMLAttributes<HTMLButtonElement> | null;
+    render?: (command: commands.ICommand<string>, disabled: boolean, executeCommand: (command: commands.ICommand<string>, name?: string) => void, index: number) => void | undefined | null | import('react').ReactElement;
+    execute?: (state: commands.ExecuteState, api: commands.TextAreaTextApi, dispatch?: import('react').Dispatch<import('@uiw/react-md-editor').ContextStore>, executeCommandState?: import('@uiw/react-md-editor').ExecuteCommandState, shortcuts?: string[]) => void;
+})[];

@@ -1,0 +1,28 @@
+import { HTMLAttributes, ReactNode, RefObject } from 'react';
+export declare enum DraggablePositionVariant {
+    PARENT_BOTTOM_CENTER = "PARENT_BOTTOM_CENTER",
+    PARENT_BOTTOM_RIGHT = "PARENT_BOTTOM_RIGHT",
+    SCREEN_BOTTOM_CENTER = "SCREEN_BOTTOM_CENTER",
+    SCREEN_BOTTOM_RIGHT = "SCREEN_BOTTOM_RIGHT"
+}
+export interface DraggableWrapperProps {
+    children: ReactNode;
+    /**
+     * Support for passing the direct value or calc functions as well
+     */
+    zIndex?: number | string;
+    positionVariant?: DraggablePositionVariant;
+    /**
+     * dragSelector (class - (append with .), id, etc) will be used to identify the grabbable button that will grab the div to drag
+     */
+    dragSelector: string;
+    parentRef?: RefObject<HTMLDivElement>;
+    boundaryGap?: Record<'x' | 'y', number>;
+    childDivProps?: HTMLAttributes<HTMLDivElement>;
+}
+/**
+ * dragClassName is the class that we feed to Draggable to identify dragging buttons
+ */
+export interface DraggableButtonProps {
+    dragClassName: string;
+}

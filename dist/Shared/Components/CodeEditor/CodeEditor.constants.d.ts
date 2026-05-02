@@ -1,0 +1,10 @@
+import { SupportedKeyboardKeysType } from '../../../Common/Hooks/UseRegisterShortcut/types';
+export declare const PREVIOUS_MATCH_SHORTCUT_KEYS: SupportedKeyboardKeysType[];
+export declare const NEXT_MATCH_SHORTCUT_KEYS: SupportedKeyboardKeysType[];
+export declare const REPLACE_SHORTCUT_KEYS: SupportedKeyboardKeysType[];
+export declare const REPLACE_ALL_SHORTCUT_KEYS: SupportedKeyboardKeysType[];
+export declare const CLOSE_SEARCH_SHORTCUT_KEYS: SupportedKeyboardKeysType[];
+export declare const READ_ONLY_TOOLTIP_TIMEOUT = 2000;
+export declare const CODE_EDITOR_FONT_SIZE = 14;
+export declare const CODE_EDITOR_LINE_HEIGHT = 1.4;
+export declare const CODE_EDITOR_MIN_OVERLAY_HEIGHT = 20;
