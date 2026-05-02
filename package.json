@@ -22,7 +22,6 @@
         "**/*.css"
     ],
     "scripts": {
-        "prepare": "node -e \"try { require('husky').install() } catch (e) {}\"",
         "lint": "tsc --noEmit && NODE_OPTIONS=--max_old_space_size=3072 eslint 'src/**/*.{js,jsx,ts,tsx}' --max-warnings 0",
         "lint-fix": "eslint 'src/**/*.{js,jsx,ts,tsx}' --fix",
         "test": "exit 0",
@@ -32,7 +31,6 @@
         "build-lib": "vite build",
         "preview": "vite preview",
         "lint-staged": "lint-staged",
-        "postinstall": "patch-package",
         "generate-icon": "node ./scripts/generate-icon.cjs",
         "generate-illustration": "node ./scripts/generate-illustration.cjs"
     },
